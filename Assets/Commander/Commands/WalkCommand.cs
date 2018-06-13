@@ -20,6 +20,7 @@ namespace CommanderEngine
         [SerializeField] internal bool lerpAtEndPrecisely = true;
         [SerializeField] internal float stoppingDistance;
         [SerializeField] internal bool updatePosition = false;
+        [SerializeField] internal float speed = 0.5f;
 
         public override string ToString()
         {

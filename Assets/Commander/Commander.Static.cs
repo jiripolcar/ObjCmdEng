@@ -10,24 +10,21 @@ namespace CommanderEngine
         public static List<Command> DisposedCommands;
         public static Dictionary<string, Commander> RegisteredCommanders;
 
-        /*        public static Command FindCommandByID(uint commandID)
-                {
-                    ActiveCommands.Find((c) => { return commandID == c.commandID; });
-                    return null;
-                }
-
-                public static Command FindAnyCommandByID(uint commandID)
-                {
-                    Command found = FindCommandByID(commandID);
-                    if (found == null)
-                        DisposedCommands.Find((c) => { return commandID == c.commandID; });
-                    return null;
-                }*/
-
-        public static Command Do(Command c)
+        public static Commander Find(string key)
         {
-            c.Owner.AddCommand(c);
-            return c;
+            Commander c;
+            if (RegisteredCommanders.TryGetValue(key, out c))
+                return c;
+            else
+                return null;
+        }
+
+        public static Command Do(Command command)
+        {
+            if (command.Owner == null)
+                Debug.Log("je to nulla");
+            command.Owner.AddCommand(command);
+            return command;
         }
 
         private static void InitAndRegister(Commander subject)
