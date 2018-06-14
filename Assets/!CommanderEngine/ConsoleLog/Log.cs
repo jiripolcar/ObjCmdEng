@@ -9,47 +9,58 @@ namespace ConsoleLog
 {
     public class Log : MonoBehaviour
     {
+        private static Log carrier;
         /// <summary>
         /// Instance of the Log MonoBehaviour
         /// </summary>
-        public static Log Carrier { get; set; }
-        /// <summary>
-        /// Sets the console on or off.
-        /// </summary>
+        public static Log Carrier
+        {
+            get
+            {
+                if (carrier == null)
+                {
+                    carrier = new GameObject("ConsoleLogCarrier").AddComponent<Log>();
+                    Write("Console Log is not present in scene. Creating default.", LogRecordType.Error);
+                }
+                return carrier;
+            }
+        }
+        /// <summary>Sets the console on or off.</summary>
         public static bool ShowConsole { get { if (Carrier) return Carrier.showConsole; else return false; } set { if (Carrier) Carrier.showConsole = value; } }
-
 
         [Tooltip("How often update FPS to log.")] [SerializeField] private float updateFPSInterval = 5;
         [Tooltip("Unity UI Fps display.")] [SerializeField] private Text fpsText;
-        private int updateFPSFramesCounter = 0;
-        private float updateFPSTimeCounter;
 
         [SerializeField] private bool showConsole = false;
+        [Tooltip("Log device specifications in the beginning of the log file?")] [SerializeField] private bool logDeviceSpecs = true;
         [SerializeField] private KeyCode consoleToggleKey = KeyCode.K;
         [SerializeField] private int lineWidth = 19;
-        [SerializeField] private bool mirrorToUnityDebug = true;
+        [Tooltip("Whether mirror this log messages to Unity console")] [SerializeField] private bool mirrorToUnityDebug = true;
+
+        [Tooltip("Set batch size, in which the log will be saved to file.")] [SerializeField] private int logBatch = 20;
+
+        private int updateFPSFramesCounter = 0;
+        private float updateFPSTimeCounter;
         private int maxLines;
         private int currentLine;
         private LogRecord[] consoleContent;
         private Queue<LogRecord> logsWriteToFileBatch = new Queue<LogRecord>();
-        [Tooltip("Set batch size, in which the log will be saved to file.")] [SerializeField] private int logBatch = 20;
 
         void Awake()
         {
-            if (Carrier == null)
-                Carrier = this;
+            if (carrier == null)
+                carrier = this;
             else
                 WriteToLog("An instance of Log already exists with name: " + Carrier.gameObject.name, LogRecordType.Error);
             maxLines = Mathf.FloorToInt((Screen.height - 30) / lineWidth);
             consoleContent = new LogRecord[maxLines];
-
-            WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine);
-            
         }
 
         private void Start()
         {
             WriteHeader();
+            if (showConsole)
+                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine);
         }
 
         void Update()
@@ -74,7 +85,6 @@ namespace ConsoleLog
             }
 
         }
-
 
         void OnGUI()
         {
@@ -123,7 +133,7 @@ namespace ConsoleLog
             if (mirrorToUnityDebug)
                 MirrorToConsole(lr);
         }
-        
+
         private static void MirrorToConsole(LogRecord lr)
         {
             if (lr.Type == LogRecordType.Error)
@@ -133,7 +143,7 @@ namespace ConsoleLog
             else
                 Debug.Log(lr.ToString());
         }
-        
+
         private string _logPath = "";
         private string logPath
         {
@@ -141,10 +151,11 @@ namespace ConsoleLog
             {
                 if (_logPath == "")
 #if UNITY_EDITOR                    
-                    _logPath = Application.dataPath + "\\Logs\\" + System.DateTime.Now.ToFileTime() + ".log";
+                    _logPath = /*Application.dataPath + "\\Logs\\" +*/ "Log_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 #else
-                    _logPath = Application.dataPath + "\\..\\log_" + System.DateTime.Now.ToFileTime() + ".txt";
+                    _logPath = /*Application.dataPath + "\\..\\log_"*/ "Log_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 #endif
+
                 return _logPath;
             }
         }
@@ -156,9 +167,8 @@ namespace ConsoleLog
             SystemInfo.processorType + x + "RAM: " + SystemInfo.systemMemorySize + x +
             "GPU: " + SystemInfo.graphicsDeviceID + x + SystemInfo.graphicsDeviceName + x + SystemInfo.graphicsDeviceType + x + SystemInfo.graphicsDeviceVendor + x +
             "OS: " + SystemInfo.operatingSystem + x + SystemInfo.operatingSystemFamily;
-            WriteToLog("Log " + System.DateTime.Now.ToShortDateString(), LogRecordType.Message);
-            WriteToLog(specs, LogRecordType.Message);
-            WriteToFile();
+            WriteToLog("Log from: " + System.DateTime.Now.ToString("yyyy MM dd HH:mm:ss"), LogRecordType.Message);
+            if (logDeviceSpecs) WriteToLog(specs, LogRecordType.Message);
         }
 
         private void WriteToFile()

@@ -1,0 +1,5 @@
+000.00	Error	Console Log is not present in scene. Creating default.
+000.00	Error	Could not find configuration file. Using default configuration.
+000.00	Message	Log from: 6/14/2018 2:06 PM
+000.00	Message	PC: System Product Name (System manufacturer)  JIRKA-I3  Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz  RAM: 16308  GPU: 5122  NVIDIA GeForce GTX 950  Direct3D11  NVIDIA  OS: Windows 10  (10.0.0) 64bit  Windows
+000.00	Engine	Frames in 5.0 seconds: 1 = 0 FPS

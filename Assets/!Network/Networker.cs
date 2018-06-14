@@ -90,7 +90,7 @@ public class Networker : MonoBehaviour {
     }
 
     public void UI_Send() { SendSocketMessage(input.text); }
-    public void UI_Connect() { SendSocketMessage(ip.text); }
+    public void UI_Connect() { Connect(ip.text); }
 
     public void Log(string log) { console.text += "\n" + log; }
 
