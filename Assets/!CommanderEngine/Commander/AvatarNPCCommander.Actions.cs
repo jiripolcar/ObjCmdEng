@@ -6,10 +6,11 @@ namespace CommanderEngine
 {
     public partial class AvatarNPCCommander : CharacterCommander
     {
-        protected override IEnumerator Walk(Command cmd, Transform destination, WalkCommand.WalkCommandEndingStyle endStyle,
+        protected override IEnumerator Walk(Command cmd, ObjectIdentifier Destination, WalkCommand.WalkCommandEndingStyle endStyle,
             bool updatePosition = false, float stoppingDistance = Command.DefaultStoppingDistance, bool precisionAlignAtEnd = false, float? maxSpeed = null
             )
         {
+            Transform destination = Destination.transform;
             float speed = maxSpeed == null ? (cmd is WalkCommand ? ((WalkCommand)cmd).speed : Command.DefaultWalkSpeed) : maxSpeed.Value;
 
             if (nmObstacle.enabled || !nmAgent.enabled)

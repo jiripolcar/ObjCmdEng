@@ -10,12 +10,9 @@ namespace CommanderEngine
     [System.Serializable]
     public partial class Command : IComparable
     {
-        /*
-        private static uint lastCommandID = 0;
-        private static uint GetCommandID { get { while (Commander.FindAnyCommandByID(++lastCommandID) != null) { } return lastCommandID; } }
-        [SerializeField] internal uint commandID;
-        */
 
+        private static ushort lastCommandSyncID = 1;
+        private static ushort GetNewCommandSyncID { get { while (GetSyncCommand(++lastCommandSyncID) != null) { } return lastCommandSyncID; } }
 
         [SerializeField] protected CommandState state = CommandState.Empty;
         public CommandState State { get { return state; } internal set { state = value; } }
@@ -23,46 +20,96 @@ namespace CommanderEngine
         public Commander Owner { get { return owner; } }
         [SerializeField] internal int priority = 0;
         [SerializeField] internal float delay = 0;
-        internal Command GroupSuccessor { get; set; }
-        internal Command GroupPredecessor { get; set; }
-        [NonSerialized] private List<Command> syncsWith;
-        public List<Command> SyncsWith { get { if (syncsWith == null) syncsWith = new List<Command>(); return syncsWith; } }
+        [SerializeField] internal ushort syncId = 0;
+        [SerializeField] internal ushort successor = 0;
+        [SerializeField] internal ushort predecessor = 0;
+        [SerializeField] internal List<ushort> syncsWith;
+
+
+        internal List<Command> SyncsWith
+        {
+            get
+            {
+                if (syncId == 0)
+                    return new List<Command>();
+                else
+                {
+                    if (syncsWith == null || syncsWith.Count == 0)
+                        return new List<Command>();
+                    else
+                    {
+                        List<Command> l = new List<Command>();
+                        foreach (ushort id in syncsWith)
+                            l.Add(GetSyncCommand(id));
+                        return l;
+                    }
+                }
+            }
+        }
+        internal Command GroupSuccessor
+        {
+            get { if (successor > 0) return GetSyncCommand(successor); else return null; }
+            set { successor = value.syncId; }
+        }
+        internal Command GroupPredecessor
+        {
+            get { if (predecessor > 0) return GetSyncCommand(predecessor); else return null; }
+            set { predecessor = value.syncId; }
+        }
+
+
 
         internal virtual bool Cancel() { state = CommandState.Canceled; return true; } // override if command class is not cancelable
 
         public override string ToString()
         {
 
-            return Owner.gameObject.name +
-                ";priority:" + priority +
-                ";delay:" + delay.ToString("0.000") +
-                ";state:" + state.ToString() +
-                (GroupSuccessor == null ? "" : ";hasSuccessor") +
-                (GroupPredecessor == null ? "" : ";hasPredecessor") +
-                (SyncsWith == null && SyncsWith.Count > 0 ? "" : ";syncsWith:" + SyncsWith.Count);
+            string syncs;
+            if (syncsWith != null && syncsWith.Count > 0)
+            {
+                syncs = "sw:";
+                for (int i = 0; i < syncsWith.Count; i++)
+                    syncs += (i > 0 ? "," : "") + syncsWith;
+            }
+            else
+                syncs = "";
+
+
+            return "ow:" + Owner.gameObject.name
+                + (priority != 0 ? ";pr:" + priority : "")
+                + (delay > 0 ? ";de:" + delay.ToString("0.000") : "")
+                + ";st:" + (int)state
+                + (syncId > 0 ? ";id:" + syncId : "")
+                + (successor > 0 ? ";sc:" + successor : "")
+                + (predecessor > 0 ? ";pc:" + predecessor : "")
+                + syncs;
         }
 
         public int CompareTo(object obj)
         {
             Command other = obj as Command;
-            if (HasSuccessor && !other.HasSuccessor) return 1;
-            else if (!HasSuccessor && other.HasSuccessor) return -1;
+            // if has predecessor, it will always follow a command => all commands that have predecessor can be at the end of the list
+            if (HasPredecessor && !other.HasPredecessor) return 1;
+            else if (!HasPredecessor && other.HasPredecessor) return -1;
             else
                 return priority - other.priority;
         }
 
         public void SyncWith(Command other)
         {
+            GetOrMakeSyncID();
             if (!SyncsWith.Contains(other))
             {
-                SyncsWith.Add(other);
-                if (!other.SyncsWith.Contains(this))
-                    other.SyncsWith.Add(this);
+                other.GetOrMakeSyncID();
+                syncsWith.Add(other.syncId);
+                if (!other.syncsWith.Contains(this.syncId))
+                    other.syncsWith.Add(this.syncId);
             }
         }
 
         public static void Sync(Command[] commands)
         {
+            foreach (Command cmd in commands) cmd.GetOrMakeSyncID();
             if (commands == null || commands.Length < 2) return;
             for (int i = 0; i < commands.Length; i++)
             {
@@ -73,13 +120,26 @@ namespace CommanderEngine
             }
         }
 
-        public void SetSuccessor(Command successor)
+        internal ushort GetOrMakeSyncID()
         {
-            GroupSuccessor = successor;
-            owner.SortCommands();
+            if (syncId == 0)
+            {
+                syncId = GetNewCommandSyncID;
+                RegisterSyncedCommand(this);
+            }
+            return syncId;
         }
 
-        internal bool IsSyncedCommand { get { return SyncsWith != null || SyncsWith.Count > 0; } }
-        internal bool HasSuccessor { get { return GroupSuccessor != null; } }
+        public void SetSuccessor(Command successorCommand)
+        {
+            successorCommand.predecessor = GetOrMakeSyncID();
+            successor = successorCommand.GetOrMakeSyncID();
+            owner.SortCommands();
+            if (successorCommand.owner != owner)
+                successorCommand.owner.SortCommands();
+        }
+
+        public bool IsSyncedCommand { get { return syncsWith != null && syncsWith.Count > 0; } }
+        public bool HasPredecessor { get { return predecessor != 0; } }
     }
 }

@@ -13,11 +13,10 @@ public class Networker : MonoBehaviour {
     public int unreliableChannelId;
     public HostTopology topology;
     public int socketId;
-    public int socketPort = 8888;
-    public string address = "localhost";
+    public int socketPort { get { return Configuration.Data.networkPort; } }
+    public string address { get { return Configuration.Data.defaultIP; } }
     public int connectionId;
-
-
+    
     public InputField input;
     public Text statusText;
     public Text console;

@@ -24,6 +24,13 @@ namespace ConsoleLog
                 }
                 return carrier;
             }
+            private set
+            {
+                if (carrier == null)
+                    carrier = value;
+                else
+                    carrier.WriteToLog("An instance of Log already exists with name: " + Carrier.gameObject.name, LogRecordType.Error);
+            }
         }
         /// <summary>Sets the console on or off.</summary>
         public static bool ShowConsole { get { if (Carrier) return Carrier.showConsole; else return false; } set { if (Carrier) Carrier.showConsole = value; } }
@@ -48,26 +55,18 @@ namespace ConsoleLog
 
         void Awake()
         {
-            if (carrier == null)
-                carrier = this;
-            else
-                WriteToLog("An instance of Log already exists with name: " + Carrier.gameObject.name, LogRecordType.Error);
+            Carrier = this;
             maxLines = Mathf.FloorToInt((Screen.height - 30) / lineWidth);
             consoleContent = new LogRecord[maxLines];
-        }
-
-        private void Start()
-        {
             WriteHeader();
             if (showConsole)
-                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine);
+                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine, true);
         }
 
         void Update()
         {
             if (Input.GetKeyUp(consoleToggleKey))
                 showConsole = !showConsole;
-
             /*        if (Input.GetKeyUp(KeyCode.L) || Input.GetMouseButtonUp(2))
                         Application.CaptureScreenshot(logPath + "_" + Time.time.ToString("0") + ".png");*/
 
@@ -80,7 +79,7 @@ namespace ConsoleLog
             if (updateFPSTimeCounter < 0)
             {
                 updateFPSTimeCounter = updateFPSInterval;
-                WriteToLog("Frames in " + updateFPSInterval.ToString("0.0") + " seconds: " + updateFPSFramesCounter + " = " + (updateFPSFramesCounter / updateFPSInterval).ToString("0") + " FPS", LogRecordType.Engine);
+                WriteToLog("Frames in " + updateFPSInterval.ToString("0.0") + " seconds: " + updateFPSFramesCounter + " = " + (updateFPSFramesCounter / updateFPSInterval).ToString("0") + " FPS", LogRecordType.Engine, true);
                 updateFPSFramesCounter = 0;
             }
 
@@ -113,12 +112,12 @@ namespace ConsoleLog
         /// <summary>
         /// Writes the log entry according to the setting of the Log MonoBehaviour instance.
         /// </summary>
-        public static void Write(string message, LogRecordType type = LogRecordType.Message)
+        public static void Write(string message, LogRecordType type = LogRecordType.Message, bool disallowMirrorToConsole = false)
         {
-            Carrier.WriteToLog(message, type);
+            Carrier.WriteToLog(message, type, disallowMirrorToConsole);
         }
 
-        private void WriteToLog(string message, LogRecordType type = LogRecordType.Message)
+        private void WriteToLog(string message, LogRecordType type = LogRecordType.Message, bool disallowMirrorToConsole = false)
         {
             LogRecord lr = new LogRecord(message, type, Time.time);
 
@@ -130,7 +129,7 @@ namespace ConsoleLog
             if (logsWriteToFileBatch.Count >= logBatch)
                 WriteToFile();
 
-            if (mirrorToUnityDebug)
+            if (mirrorToUnityDebug && !disallowMirrorToConsole)
                 MirrorToConsole(lr);
         }
 
@@ -168,7 +167,7 @@ namespace ConsoleLog
             "GPU: " + SystemInfo.graphicsDeviceID + x + SystemInfo.graphicsDeviceName + x + SystemInfo.graphicsDeviceType + x + SystemInfo.graphicsDeviceVendor + x +
             "OS: " + SystemInfo.operatingSystem + x + SystemInfo.operatingSystemFamily;
             WriteToLog("Log from: " + System.DateTime.Now.ToString("yyyy MM dd HH:mm:ss"), LogRecordType.Message);
-            if (logDeviceSpecs) WriteToLog(specs, LogRecordType.Message);
+            if (logDeviceSpecs) WriteToLog(specs, LogRecordType.Message, true);
         }
 
         private void WriteToFile()

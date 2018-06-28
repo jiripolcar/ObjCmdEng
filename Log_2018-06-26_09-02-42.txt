@@ -1,0 +1,5 @@
+000.00	Message	Log from: 2018 06 26 09:02:41
+000.00	Message	PC: System Product Name (System manufacturer)  JIRKA-I3  Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz  RAM: 16308  GPU: 5122  NVIDIA GeForce GTX 950  Direct3D11  NVIDIA  OS: Windows 10  (10.0.0) 64bit  Windows
+000.00	Engine	Press K to toggle Console.
+000.00	Engine	ow:Ethan;de:5.000;st:10;cmd:walk;;dest:targ5;spd:0.500;end:0;lrp;ctc;stdst:1.000
+000.00	Engine	Frames in 5.0 seconds: 1 = 0 FPS

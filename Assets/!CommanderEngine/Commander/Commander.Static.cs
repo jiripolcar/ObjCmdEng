@@ -13,7 +13,7 @@ namespace CommanderEngine
         public static Commander Find(string key)
         {
             Commander c;
-            if (RegisteredCommanders.TryGetValue(key, out c))
+            if (RegisteredCommanders.TryGetValue(key.ToLower(), out c))
                 return c;
             else
                 return null;
@@ -21,14 +21,12 @@ namespace CommanderEngine
 
         public static Command Do(Command command)
         {
-            if (command.Owner == null)
-                Debug.Log("je to nulla");
             command.Owner.AddCommand(command);
             return command;
         }
 
         private static void InitAndRegister(Commander subject)
-        {
+        {            
             if (ActiveCommands == null)
                 ActiveCommands = new List<Command>();
             if (DisposedCommands == null)

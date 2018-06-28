@@ -16,7 +16,7 @@ namespace CommanderEngine
             yield return StartCoroutine(Walk(cmd, cmd.destination, cmd.endingStyle, cmd.updatePosition, cmd.stoppingDistance, cmd.lerpAtEndPrecisely));
         }
 
-        protected virtual IEnumerator Walk(Command cmd, Transform destination, WalkCommand.WalkCommandEndingStyle endStyle,
+        protected virtual IEnumerator Walk(Command cmd, ObjectIdentifier destination, WalkCommand.WalkCommandEndingStyle endStyle,
             bool updatePosition = false, float stoppingDistance = Command.DefaultStoppingDistance, bool precisionAlignAtEnd = false, float? maxSpeed = null
             )
         {
@@ -34,7 +34,7 @@ namespace CommanderEngine
             int stucks = 0;
             float walkWatchTime = WalkUpdateInterval;
 
-            Vector3 targetPosition = destination.position;            
+            Vector3 targetPosition = destination.transform.position;            
             nmAgent.SetDestination(targetPosition);
 
             while (((targetPosition - transform.position).Magnitude2D() > stoppingDistance) && (cmd == null ? true : cmd.State == CommandState.Pending))
@@ -43,9 +43,9 @@ namespace CommanderEngine
                 if (walkWatchTime < 0)
                 {
                     walkWatchTime += WalkUpdateInterval;
-                    if (updatePosition && (targetPosition - destination.position).magnitude > WalkTargetPositionUpdateThresholdDistance)
+                    if (updatePosition && (targetPosition - destination.transform.position).magnitude > WalkTargetPositionUpdateThresholdDistance)
                     {
-                        targetPosition = destination.position;
+                        targetPosition = destination.transform.position;
                         nmAgent.SetDestination(targetPosition);
                     }
                     stuckWatch.Add(transform.position);
@@ -77,12 +77,12 @@ namespace CommanderEngine
                 float startEAy = transform.eulerAngles.y;
                 float endEAy;
                 if (endStyle == WalkCommand.WalkCommandEndingStyle.AlignWith)
-                    endEAy = destination.eulerAngles.y;
+                    endEAy = destination.transform.eulerAngles.y;
                 else if (endStyle == WalkCommand.WalkCommandEndingStyle.Face)
                 {
                     GameObject atLooker = new GameObject(name + "'s atLooker");
                     atLooker.transform.position = beforeAligning;
-                    atLooker.transform.LookAt(destination);
+                    atLooker.transform.LookAt(destination.transform);
                     endEAy = atLooker.transform.eulerAngles.y;
                     Destroy(atLooker, 0.2f);
                 }
@@ -93,7 +93,7 @@ namespace CommanderEngine
                 {
                     lerp += Time.deltaTime / walkAlignDuration;
 
-                    if (precisionAlignAtEnd) transform.position = Vector3.Lerp(beforeAligning, destination.position, lerp);
+                    if (precisionAlignAtEnd) transform.position = Vector3.Lerp(beforeAligning, destination.transform.position, lerp);
                     if (endStyle != WalkCommand.WalkCommandEndingStyle.None)
                     {
                         Vector3 ea = transform.eulerAngles;

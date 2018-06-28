@@ -6,7 +6,7 @@ namespace CommanderEngine
 {
     public partial class AvatarNPCCommander : CharacterCommander
     {
-        private bool animatorSit { get { return animator.GetBool("Sitting"); } set { animator.SetBool("Sitting", value); } }
+        private bool AnimatorSit { get { return animator.GetBool("Sitting"); } set { animator.SetBool("Sitting", value); } }
 
         protected override IEnumerator Commit(Command command)
         {

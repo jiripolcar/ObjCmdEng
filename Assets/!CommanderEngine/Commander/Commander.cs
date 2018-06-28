@@ -18,10 +18,15 @@ namespace CommanderEngine
             InitAndRegister(this);
         }
 
+
+
+
+
         internal void AddCommand(Command c)
         {
             commandQueue.Add(c);
             commandQueue.Sort();
+            c.State = CommandState.InQueue;
             if (!InCommandCycle)
                 StartCoroutine(CommitCommandsCycle());
         }
@@ -76,6 +81,7 @@ namespace CommanderEngine
 
         private IEnumerator CommitCommandsCycle()
         {
+            print(this + " enter command cycle ");
             InCommandCycle = true;
             while (commandQueue.Count > 0)
             {
@@ -84,14 +90,15 @@ namespace CommanderEngine
                     commandQueue.Remove(currentCommand);
                 else if (currentCommand.delay > 0)
                 {
+                    print("delay");
                     Busy = false;
                     currentCommand.State = CommandState.WaitingDelay;
                     currentCommand.delay -= Time.deltaTime;
                 }
                 else
                 {
-                    
-                    if (currentCommand.IsSyncedCommand)
+
+                    if (currentCommand.IsSyncedCommand && currentCommand.State < CommandState.Pending)
                     {
                         Log.Write("WaitSync:\t" + currentCommand.ToString(), LogRecordType.Commander);
                         currentCommand.State = CommandState.WaitingSync;
@@ -104,23 +111,24 @@ namespace CommanderEngine
                         }
 
                     }
-                    if (currentCommand.State >= CommandState.WaitingSync)
-                    {
-                        Log.Write("Commiting:\t" + currentCommand.ToString(), LogRecordType.Commander);
-                        currentCommand.State = CommandState.Pending;
-                        Busy = true;
-                        yield return StartCoroutine(Commit(currentCommand));
-                        currentCommand.State = CommandState.Disposed;
-                        commandQueue.Remove(currentCommand);
-                        DisposedCommands.Add(currentCommand);
-                        currentCommand = currentCommand.GroupSuccessor;
-                    }
+
+                    currentCommand.State = CommandState.Pending;                    
+                    Log.Write("Commiting:\t" + currentCommand.ToString(), LogRecordType.Commander);
+                    
+                    Busy = true;
+                    yield return StartCoroutine(Commit(currentCommand));
+                    currentCommand.State = CommandState.Disposed;
+                    commandQueue.Remove(currentCommand);
+                    DisposedCommands.Add(currentCommand);
+                    currentCommand = currentCommand.GroupSuccessor;
+
                 }
                 yield return 0;
             }
             Busy = false;
             currentCommand = null;
             InCommandCycle = false;
+            print(this + " exit command cycle ");
         }
 
         protected virtual IEnumerator Commit(Command command)

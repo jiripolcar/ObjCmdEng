@@ -7,7 +7,7 @@ namespace CommanderEngine
     public partial class Commander : MonoBehaviour
     {
         public static WalkCommand DoWalk(Commander Owner,
-            Transform Destination,
+            ObjectIdentifier Destination,
             int? Priority = null,
             float? Delay = null,
             WalkCommand.WalkCommandEndingStyle EndStyle = WalkCommand.WalkCommandEndingStyle.None,

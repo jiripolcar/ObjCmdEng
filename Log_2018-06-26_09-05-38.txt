@@ -1,0 +1,13 @@
+000.00	Message	Log from: 2018 06 26 09:05:16
+000.00	Message	PC: System Product Name (System manufacturer)  JIRKA-I3  Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz  RAM: 16308  GPU: 5122  NVIDIA GeForce GTX 950  Direct3D11  NVIDIA  OS: Windows 10  (10.0.0) 64bit  Windows
+000.00	Engine	Press K to toggle Console.
+000.00	Engine	ow:Ethan;de:5.000;st:10;cmd:walk;;dest:targ5;spd:0.500;end:0;lrp;ctc;stdst:1.000
+000.00	Commander	WaitSync:	ow:Joe;st:20;id:3sw:System.Collections.Generic.List`1[System.UInt16];cmd:walk;;dest:targ2;spd:0.100;end:0;lrp;stdst:0.100
+000.00	Engine	Frames in 5.0 seconds: 1 = 0 FPS
+005.01	Engine	Frames in 5.0 seconds: 282 = 56 FPS
+005.01	Commander	WaitSync:	ow:Ethan;st:30;id:2sw:System.Collections.Generic.List`1[System.UInt16];cmd:walk;;dest:targ5;spd:0.500;end:0;lrp;ctc;stdst:1.000
+005.01	Commander	Commiting:	ow:Ethan;st:50;id:2sw:System.Collections.Generic.List`1[System.UInt16];cmd:walk;;dest:targ5;spd:0.500;end:0;lrp;ctc;stdst:1.000
+005.01	Commander	Commiting:	ow:Joe;st:50;id:3sw:System.Collections.Generic.List`1[System.UInt16];cmd:walk;;dest:targ2;spd:0.100;end:0;lrp;stdst:0.100
+010.01	Engine	Frames in 5.0 seconds: 302 = 60 FPS
+015.03	Engine	Frames in 5.0 seconds: 300 = 60 FPS
+020.04	Engine	Frames in 5.0 seconds: 302 = 60 FPS
