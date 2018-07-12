@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1105 &110500000
+HumanTemplate:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: mhm_fullrig_mappingTemplate
+  m_BoneTemplate:
+    Chest: spine02
+    Head: head
+    Hips: root
+    Jaw: jaw
+    Left Index Distal: finger2-2.L
+    Left Index Intermediate: finger2-1.L
+    Left Index Proximal: metacarpal1.L
+    Left Little Distal: finger5-2.L
+    Left Little Intermediate: finger5-1.L
+    Left Little Proximal: metacarpal4.L
+    Left Middle Distal: finger3-2.L
+    Left Middle Intermediate: finger3-1.L
+    Left Middle Proximal: metacarpal2.L
+    Left Ring Distal: finger4-2.L
+    Left Ring Intermediate: finger4-1.L
+    Left Ring Proximal: metacarpal3.L
+    Left Thumb Distal: finger1-3.L
+    Left Thumb Intermediate: finger1-2.L
+    Left Thumb Proximal: finger1-1.L
+    LeftEye: eye.L
+    LeftFoot: foot.L
+    LeftHand: wrist.L
+    LeftLowerArm: lowerarm01.L
+    LeftLowerLeg: lowerleg01.L
+    LeftShoulder: clavicle.L
+    LeftToes: toe2-1.L
+    LeftUpperArm: upperarm01.L
+    LeftUpperLeg: upperleg01.L
+    Neck: neck02
+    Right Index Distal: finger2-2.R
+    Right Index Intermediate: finger2-1.R
+    Right Index Proximal: metacarpal1.R
+    Right Little Distal: finger5-2.R
+    Right Little Intermediate: finger5-1.R
+    Right Little Proximal: metacarpal4.R
+    Right Middle Distal: finger3-2.R
+    Right Middle Intermediate: finger3-1.R
+    Right Middle Proximal: metacarpal2.R
+    Right Ring Distal: finger4-2.R
+    Right Ring Intermediate: finger4-1.R
+    Right Ring Proximal: metacarpal3.R
+    Right Thumb Distal: finger1-3.R
+    Right Thumb Intermediate: finger1-2.R
+    Right Thumb Proximal: finger1-1.R
+    RightEye: eye.R
+    RightFoot: foot.R
+    RightHand: wrist.R
+    RightLowerArm: lowerarm01.R
+    RightLowerLeg: lowerleg01.R
+    RightShoulder: clavicle.R
+    RightToes: toe2-1.R
+    RightUpperArm: upperarm01.R
+    RightUpperLeg: upperleg01.R
+    Spine: spine04
+    UpperChest: spine01
