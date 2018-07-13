@@ -13,14 +13,15 @@ public class Networker : MonoBehaviour {
     public int unreliableChannelId;
     public HostTopology topology;
     public int socketId;
-    public int socketPort { get { return Configuration.Data.networkPort; } }
-    public string address { get { return Configuration.Data.defaultIP; } }
+    public int socketPort { get { return Configuration.Data.networkPort; } set { Configuration.Data.networkPort = value; } }
+    public string address { get { return Configuration.Data.defaultIP; } set { Configuration.Data.defaultIP = value; } }
     public int connectionId;
     
     public InputField input;
     public Text statusText;
     public Text console;
     public InputField ip;
+    List<string> connectedIpAddresses;
 
     // Use this for initialization
     void Start () {
@@ -31,13 +32,21 @@ public class Networker : MonoBehaviour {
         topology = new HostTopology(config, 10);
         socketId = NetworkTransport.AddHost(topology, socketPort);
         Log("Socket Open. SocketId is: " + socketId);
+        connectedIpAddresses = new List<string>();
+        ip.text = address;
+        
     }
 
     public void Connect(string address)
     {
         byte error;
         connectionId = NetworkTransport.Connect(socketId, address, socketPort, 0, out error);
-        Log("Connected to server. ConnectionId: " + connectionId);
+        if (error == (byte)NetworkError.Ok)
+        {
+            connectedIpAddresses.Add(address);
+            Log("Connected to server. ConnectionId: " + connectionId + " errorbyte: " + error.ToString());
+            SendSocketMessage("CRQ:" + Network.player.ipAddress);
+        }
     }
 
 
@@ -52,7 +61,7 @@ public class Networker : MonoBehaviour {
         int bufferSize = 1024;
 
         NetworkTransport.Send(socketId, connectionId, reliableChannelId, buffer, bufferSize, out error);
-        Log( "Message sent. " + error);
+        Log( "Message sent. Errorbyte: " + error);
     }
 
     private void Update()
@@ -80,6 +89,12 @@ public class Networker : MonoBehaviour {
                 string message = formatter.Deserialize(stream) as string;
                 Log("incoming message event received: " + message);
                 input.text = message;
+                if (message.Contains("CRQ"))
+                {
+                    string addr = message.Split(':')[1];
+                    if (!connectedIpAddresses.Contains(addr))
+                        Connect(addr);
+                }                
                 break;
             case NetworkEventType.DisconnectEvent:
                 statusText.text = "remote client event disconnected";
