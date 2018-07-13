@@ -45,7 +45,7 @@ public class Networker : MonoBehaviour {
         {
             connectedIpAddresses.Add(address);
             Log("Connected to server. ConnectionId: " + connectionId + " errorbyte: " + error.ToString());
-            Invoke("SendCQR", 0.5f);
+            Invoke("SendCRQ", 0.5f);
         }
     }
 
