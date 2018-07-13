@@ -9,7 +9,7 @@ public class Serializer : MonoBehaviour
 
     // When using a server instance like this it must be pumped manually
 
-    bool server = false;
+    public bool server = false;
 
     private void Start()
     {
@@ -17,8 +17,8 @@ public class Serializer : MonoBehaviour
             addr = address;
         if (server)
             StartServer();
-        else
-            StartClient();
+
+        StartClient();
     }
 
     void Update()
@@ -46,7 +46,8 @@ public class Serializer : MonoBehaviour
     {
         m_Client = new NetworkClient();
         m_Client.RegisterHandler(MsgType.Connect, OnClientConnected);
-        m_Client.Connect(addr, socketPort);
+        m_Client.Connect("127.0.0.1", socketPort);
+        Debug.Log("klient");
     }
 
     void OnClientConnected(NetworkMessage netmsg)
@@ -64,7 +65,7 @@ public class Serializer : MonoBehaviour
         m_Client.SendWriter(writer, 0);
     }
 
-    public bool send = false;
+    public string send;
     public bool sendm;
     public string receive;
 
