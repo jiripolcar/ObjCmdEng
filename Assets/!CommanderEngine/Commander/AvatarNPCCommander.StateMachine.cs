@@ -17,12 +17,12 @@ namespace CommanderEngine
         {
             if (command is WalkCommand)
             {
-                yield return StartCoroutine(Walk((WalkCommand)command));
+                yield return StartCoroutine(CommitWalk((WalkCommand)command));
             }
             else if (command is SitCommand)
             {
                 SitCommand sitCommand = (SitCommand)command;
-                yield return StartCoroutine(SitDown(sitCommand.target));
+                yield return StartCoroutine(CommitSit(sitCommand));
             }
             else if (command is StandUpCommand)
             {
@@ -34,6 +34,53 @@ namespace CommanderEngine
             }
         }
 
+        protected virtual IEnumerator CommitWalk(WalkCommand cmd)
+        {
+            // if sitting, must standup
+            if (SeatState != null)
+            {
+                // is this neccessary?
+                Log.Write(name + " received Walk, but is sitting. StandingUp.", LogRecordType.Commander);
+                yield return StartCoroutine(StandUp());
+
+            }
+            yield return StartCoroutine(Walk(cmd));
+        }
+
+        protected virtual IEnumerator CommitSit(SitCommand cmd)
+        {
+            // already sitting somewhere
+            if (SeatState != null)
+            {
+                // if sitting on the place where supposed to sit, do nothing
+                if (SeatState == cmd.target)
+                {
+                    Log.Write(name + " received Sit at " + cmd.target.gameObject.GetObjectIdentifier().identifyAs + " but already sitting there.", LogRecordType.Commander);
+                    yield break;
+                }
+                // otherwise standup and go to the seat
+                else
+                    yield return StartCoroutine(StandUp());
+            }
+
+            // check distance, if too far, walk there
+            float distance = (transform.position - cmd.target.ConstraintStandUp.transform.position).magnitude;
+            if (distance > Command.DefaultStoppingDistance)
+            {
+                Log.Write(name + " received Sit at " + cmd.target.gameObject.GetObjectIdentifier().identifyAs + " and is too far ("+distance.ToString("0.00")+"). Going there.", LogRecordType.Commander);
+                yield return StartCoroutine(Walk(cmd, cmd.target.ConstraintStandUp, WalkCommand.WalkCommandEndingStyle.None, false, 0.1f, false));
+            }
+
+            yield return StartCoroutine(Sit(cmd.target));
+        }
+
+        protected virtual IEnumerator CommitStandUp(StandUpCommand cmd)
+        {
+            if (SeatState != null)
+                yield return StartCoroutine(StandUp());
+            else
+                Log.Write(name + " received StandUp, already standing.", LogRecordType.Commander);
+        }
 
         protected virtual IEnumerator AnimationVariator()
         {

@@ -6,7 +6,7 @@ namespace CommanderEngine
 {
     public partial class AvatarNPCCommander : CharacterCommander
     {
-        protected override IEnumerator Walk(Command cmd, ObjectIdentifier Destination, WalkCommand.WalkCommandEndingStyle endStyle,
+        protected override IEnumerator Walk(Command cmd, GameObject Destination, WalkCommand.WalkCommandEndingStyle endStyle,
             bool updatePosition = false, float stoppingDistance = Command.DefaultStoppingDistance, bool precisionAlignAtEnd = false, float? maxSpeed = null
             )
         {
@@ -123,7 +123,7 @@ namespace CommanderEngine
             //    TargetMatcher.Match(gameObject, avatarTargets.bottom, SeatState.ConstraintSit.transform,2);
             Transform target = SeatState.ConstraintSit.transform;
             TargetMatcherPosition.Match(gameObject, avatarTargets.bottom, target, 1);// 0.3f);
-            TargetMatcherRotation.Match(gameObject, target, 1);
+            TargetMatcherRotation.Match(gameObject, target, 0.5f);
             //animator.MatchTarget(target.position, target.rotation,
             // AvatarTarget.Body, new MatchTargetWeightMask(new Vector3(1, 1, 1), 1), 0.3f, 0.6f);
         }
@@ -140,7 +140,7 @@ namespace CommanderEngine
             //, new MatchTargetWeightMask(new Vector3(1, 1, 1), 0), 0.25f, 0.7f);
         }
 
-        private IEnumerator SitDown(SeatControl target)
+        private IEnumerator Sit(SeatControl target)
         {
             SeatState = target;
             AnimatorSit = true;

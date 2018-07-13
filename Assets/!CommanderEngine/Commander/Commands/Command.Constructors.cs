@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ConsoleLog;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace CommanderEngine
         /// <returns></returns>
         public static WalkCommand Walk(
             Commander Owner,
-            ObjectIdentifier Destination,
+            GameObject Destination,
             int? Priority = null,
             float? Delay = null,
             WalkCommand.WalkCommandEndingStyle EndStyle = WalkCommand.WalkCommandEndingStyle.None,
@@ -36,11 +37,10 @@ namespace CommanderEngine
             float? StoppingDistance = null
             )
         {
-            if (Owner == null)
-                throw new System.Exception("Commander.Walk: Owner does not exist!");
-            if (Destination == null)
-                throw new System.Exception("Commander.Walk: Destination does not exist!");
-
+            if (Owner == null || Destination == null)
+            {
+                Log.Write("WalkCommand without an owner of a destination!", LogRecordType.Error);
+            }            
             WalkCommand c = new WalkCommand()
             {
                 owner = Owner,
@@ -54,6 +54,8 @@ namespace CommanderEngine
                 updatePosition = Catch == null ? false : Catch.Value,
                 stoppingDistance = StoppingDistance == null ? DefaultStoppingDistance : StoppingDistance.Value
             };
+            if (Destination.GetObjectIdentifier() == null)
+                Log.Write("Walk command destination has no ObjectIdentifier. This is problematic over network and in other cases. " + c.ToString(), LogRecordType.Warning);
             return c;
         }
 
@@ -92,7 +94,11 @@ namespace CommanderEngine
         }        
         */
 
-
+        /// <summary>
+        /// Constructs command from string. Syntax: attribute1:value1;attribute2:value2.
+        /// </summary>
+        /// <param name="commandString">Mandatory attributes: cmd, ow. Other attributes: pr, de, st, id, sc, pc, sw:id1,id2,id3 (priority, delay, state, syncId, successorId, predecessorId, syncsWithIds).</param>
+        /// <returns></returns>
         public static Command FromString(string commandString)
         {
             Commander Owner = null;
@@ -150,7 +156,7 @@ namespace CommanderEngine
 
         private static WalkCommand WalkFromString(Commander Owner, int Priority, CommandState State, float Delay, ushort SyncId, ushort Successor, ushort Predecesssor, List<ushort> SyncsWithList, string[] parsed)
         {
-            ObjectIdentifier Destination = null;
+            GameObject Destination = null;
             WalkCommand.WalkCommandEndingStyle EndStyle = WalkCommand.WalkCommandEndingStyle.None;
             bool LerpAtEnd = true;
             float StopDist = DefaultStoppingDistance;
@@ -164,7 +170,7 @@ namespace CommanderEngine
                 GetAttributeAndValue(s, out attribute, out value);
                 switch (attribute)
                 {
-                    case "dest": Destination = ObjectIdentifier.Find(value); break;
+                    case "dest": Destination = ObjectIdentifier.Find(value).gameObject; break;
                     case "spd": Speed = float.Parse(value); break;
                     case "end": EndStyle = (WalkCommand.WalkCommandEndingStyle)int.Parse(value); break;
                     case "lrp": LerpAtEnd = bool.Parse(value); break;
@@ -173,23 +179,12 @@ namespace CommanderEngine
                 }
             }
 
-            WalkCommand wc = new WalkCommand()
-            {
-                owner = Owner,
-                state = State,
-                syncId = SyncId,
-                priority = Priority,
-                delay = Delay,
-                successor = Successor,
-                predecessor = Predecesssor,
-                syncsWith = SyncsWithList,
-                destination = Destination,
-                speed = Speed,
-                endingStyle = EndStyle,
-                lerpAtEndPrecisely = LerpAtEnd,
-                updatePosition = Catching,
-                stoppingDistance = StopDist
-            };
+            WalkCommand wc = Walk(Owner, Destination, Priority, Delay, EndStyle, LerpAtEnd, Speed, Catching, StopDist);
+            wc.syncId = SyncId;
+            wc.predecessor = Predecesssor;
+            wc.successor = Successor;
+            wc.syncsWith = SyncsWithList;
+            wc.state = State;
             return wc;
         }
 

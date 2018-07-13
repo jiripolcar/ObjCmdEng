@@ -12,7 +12,7 @@ namespace CommanderEngine
 
 
         [Tooltip("If null or zero length, will use gameObject.name")]
-        [SerializeField] private string identifyAs = "";
+        [SerializeField] public string identifyAs = "";
 
         private void Reset()
         {
@@ -39,13 +39,13 @@ namespace CommanderEngine
 
         private void Register()
         {
-            string regString = (identifyAs.Length > 0 ? identifyAs : name).ToLower();
+            identifyAs = (identifyAs.Length > 0 ? identifyAs : name).ToLower();
 
             if (objectIdentifiers == null)
                 objectIdentifiers = new Dictionary<string, ObjectIdentifier>();
-            if (objectIdentifiers.ContainsKey(regString))
-                ConsoleLog.Log.Write("RegString already exists! " + regString, ConsoleLog.LogRecordType.Error);
-            objectIdentifiers.Add(regString, this);
+            if (objectIdentifiers.ContainsKey(identifyAs))
+                ConsoleLog.Log.Write("RegString already exists! " + identifyAs, ConsoleLog.LogRecordType.Error);
+            objectIdentifiers.Add(identifyAs, this);
         }
 
         private bool Deregister()

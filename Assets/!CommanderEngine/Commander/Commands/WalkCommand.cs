@@ -15,7 +15,7 @@ namespace CommanderEngine
             Face
         }
 
-        [SerializeField] internal ObjectIdentifier destination;
+        [SerializeField] internal GameObject destination;
         [SerializeField] internal WalkCommandEndingStyle endingStyle = WalkCommandEndingStyle.None;
         [SerializeField] internal bool lerpAtEndPrecisely = true;
         [SerializeField] internal float stoppingDistance = DefaultStoppingDistance;

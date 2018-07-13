@@ -42,7 +42,7 @@ namespace ConsoleLog
         [Tooltip("Log device specifications in the beginning of the log file?")] [SerializeField] private bool logDeviceSpecs = true;
         [SerializeField] private KeyCode consoleToggleKey = KeyCode.K;
         [SerializeField] private int lineWidth = 19;
-        [Tooltip("Whether mirror this log messages to Unity console")] [SerializeField] private bool mirrorToUnityDebug = true;
+        [Tooltip("Whether mirror this log messages to Unity console. Auto true in build, change in Awake if you wish.")] [SerializeField] private bool mirrorToUnityDebug = true;
 
         [Tooltip("Set batch size, in which the log will be saved to file.")] [SerializeField] private int logBatch = 20;
 
@@ -55,12 +55,14 @@ namespace ConsoleLog
 
         void Awake()
         {
+            if (!Application.isEditor)
+                mirrorToUnityDebug = true;
             Carrier = this;
             maxLines = Mathf.FloorToInt((Screen.height - 30) / lineWidth);
             consoleContent = new LogRecord[maxLines];
             WriteHeader();
             if (showConsole)
-                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine, true);
+                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine, true);            
         }
 
         void Update()
@@ -150,7 +152,7 @@ namespace ConsoleLog
             {
                 if (_logPath == "")
 #if UNITY_EDITOR                    
-                    _logPath = /*Application.dataPath + "\\Logs\\" +*/ "\\Logs\\Log_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+                    _logPath = /*Application.dataPath + "\\Logs\\" +*/ "Logs\\Log_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 #else
                     _logPath = /*Application.dataPath + "\\..\\log_"*/ "Log_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 #endif

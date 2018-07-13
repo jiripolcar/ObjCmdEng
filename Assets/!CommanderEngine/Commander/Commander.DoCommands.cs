@@ -6,8 +6,8 @@ namespace CommanderEngine
 {
     public partial class Commander : MonoBehaviour
     {
-        public static WalkCommand DoWalk(Commander Owner,
-            ObjectIdentifier Destination,
+        /*public static WalkCommand DoWalk(Commander Owner,
+            GameObject Destination,
             int? Priority = null,
             float? Delay = null,
             WalkCommand.WalkCommandEndingStyle EndStyle = WalkCommand.WalkCommandEndingStyle.None,
@@ -19,6 +19,6 @@ namespace CommanderEngine
             WalkCommand walkCommand = Command.Walk(Owner, Destination, Priority, Delay, EndStyle, PrecisionAlignAtEnd, Speed, Catch, StoppingDistance);
             Do(walkCommand);
             return walkCommand;
-        }
+        }*/
     }
 }

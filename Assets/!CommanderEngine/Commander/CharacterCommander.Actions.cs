@@ -16,7 +16,7 @@ namespace CommanderEngine
             yield return StartCoroutine(Walk(cmd, cmd.destination, cmd.endingStyle, cmd.updatePosition, cmd.stoppingDistance, cmd.lerpAtEndPrecisely));
         }
 
-        protected virtual IEnumerator Walk(Command cmd, ObjectIdentifier destination, WalkCommand.WalkCommandEndingStyle endStyle,
+        protected virtual IEnumerator Walk(Command cmd, GameObject destination, WalkCommand.WalkCommandEndingStyle endStyle,
             bool updatePosition = false, float stoppingDistance = Command.DefaultStoppingDistance, bool precisionAlignAtEnd = false, float? maxSpeed = null
             )
         {
