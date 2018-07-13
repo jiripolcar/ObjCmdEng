@@ -45,10 +45,14 @@ public class Networker : MonoBehaviour {
         {
             connectedIpAddresses.Add(address);
             Log("Connected to server. ConnectionId: " + connectionId + " errorbyte: " + error.ToString());
-            SendSocketMessage("CRQ:" + Network.player.ipAddress);
+            Invoke("SendCQR", 0.5f);
         }
     }
 
+    public void SendCRQ()
+    {
+        SendSocketMessage("CRQ:" + Network.player.ipAddress);
+    }
 
     public void SendSocketMessage(string message)
     {
