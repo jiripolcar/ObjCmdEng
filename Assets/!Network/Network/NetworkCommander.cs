@@ -25,7 +25,8 @@ public class NetworkCommander : MonoBehaviour {
     {
         if (NetworkServer == null)
             Debug.LogWarning("Network Server is null!");
-        Instance.syncMessage += "#" + message;
+
+        Instance.syncMessage += Instance.syncMessage.Length > 0 ? "#" : "" + message;
     }
     [TextArea(8, 8)]
     public string syncMessage;
@@ -46,8 +47,8 @@ public class NetworkCommander : MonoBehaviour {
             
             string[] buffer = singleSyncBuffer.Split(CommanderSyncer.Del);
             Commander cmdr = Commander.Find(buffer[0]);
-            Debug.Log("Syncing: " + singleSyncBuffer + (cmdr == null ? " Found " + cmdr.name : "NOT FOUND!"));
-            if (cmdr is AvatarNPCCommander)
+            Debug.Log("Syncing: " + singleSyncBuffer + (cmdr != null ? " Found " + cmdr.name : "NOT FOUND!"));
+            if (cmdr)
                 cmdr.syncer.ReceiveSync(singleSyncBuffer);
         }
         

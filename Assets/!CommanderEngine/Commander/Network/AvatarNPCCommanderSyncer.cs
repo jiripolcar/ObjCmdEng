@@ -28,8 +28,12 @@ namespace CommanderEngine.Network
         }
 
         public override void ReceiveSync(string syncString)
-        {            
+        {
+            string x = "Determining\n";
             string[] buffer = syncString.Split(Del);
+            foreach (string b in buffer)
+                x += b + "\n";
+            Debug.Log(x);
 
             switch (buffer[1])
             {
