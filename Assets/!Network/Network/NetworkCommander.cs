@@ -43,10 +43,12 @@ public class NetworkCommander : MonoBehaviour {
         string[] multipleSyncsBuffer = data.Split(SyncStringDel);
         foreach (string singleSyncBuffer in multipleSyncsBuffer)
         {
-            string[] buffer = singleSyncBuffer.Split(AvatarNPCCommanderSyncer.Del);
+            
+            string[] buffer = singleSyncBuffer.Split(CommanderSyncer.Del);
             Commander cmdr = Commander.Find(buffer[0]);
+            Debug.Log("Syncing: " + singleSyncBuffer + (cmdr == null ? " Found " + cmdr.name : "NOT FOUND!"));
             if (cmdr is AvatarNPCCommander)
-                ((AvatarNPCCommander)cmdr).syncer.ReceiveSync(singleSyncBuffer);
+                cmdr.syncer.ReceiveSync(singleSyncBuffer);
         }
         
     }
