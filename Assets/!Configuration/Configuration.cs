@@ -6,6 +6,8 @@ public class ConfigurationData
 {
     public int networkPort = 7989;
     public string defaultIP = "localhost";
+    public bool startAsServer = true;
+
 
 
     public override string ToString()
@@ -28,7 +30,9 @@ public class Configuration : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        configData= LoadConfig();        
+#if !UNITY_EDITOR
+    configData = LoadConfig();
+#endif
     }
 
     private void OnApplicationQuit()

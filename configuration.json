@@ -1,4 +1,5 @@
 {
     "networkPort": 7989,
-    "defaultIP": "localhost"
+    "defaultIP": "127.0.0.1",
+    "startAsServer": true
 }

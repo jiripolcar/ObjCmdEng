@@ -12,7 +12,7 @@ namespace Demo.Infrastructure
     [Tooltip("The connection manager to delegate events through")]
     public NetworkHostManager HostManager;
 
-    void Start()
+    void Awake()
     {
       // Any application level configuration here.
       var config = new GlobalConfig();

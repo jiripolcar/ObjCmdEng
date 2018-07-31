@@ -10,8 +10,8 @@ namespace Demo
         [Tooltip("The connection manager to use")]
         public NetworkHostManager HostManager; // TODO do Configu
 
-        [Tooltip("The local server port to bind to")]
-        public int Port = 8080; // TODO do Configu
+        //[Tooltip("The local server port to bind to")]
+        public int Port { get { return Configuration.Data.networkPort; } }
 
         private readonly NetworkConnectionManager _connectionManager = new NetworkConnectionManager();
 

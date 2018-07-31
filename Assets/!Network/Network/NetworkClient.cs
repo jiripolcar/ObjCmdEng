@@ -8,14 +8,14 @@ namespace Demo
     public class NetworkClient : MonoBehaviour, INetworkEventHandler
     {
         [Tooltip("The connection manager to use")]
-        [SerializeField] private NetworkHostManager HostManager;
+        [SerializeField] public NetworkHostManager HostManager;
 
-        [Tooltip("The remote server address to connect to")]
-        public string RemoteHost = "127.0.0.1"; // TODO do configu
+       // [Tooltip("The remote server address to connect to")]
+        public string RemoteHost { get { return Configuration.Data.defaultIP; } }
 
-        [Tooltip("The remote server port to bind connect to")]
-        public int RemotePort = 8080;   // TODO do configu
-        
+        //[Tooltip("The remote server port to bind connect to")]
+        public int RemotePort { get { return Configuration.Data.networkPort; } }
+
         private readonly NetworkConnectionManager _connectionManager = new NetworkConnectionManager();
 
 
@@ -36,7 +36,7 @@ namespace Demo
             if (_running)
             {
                 _connectionManager.Update();
-            }            
+            }
         }
 
         private void OnDisable()
