@@ -23,6 +23,8 @@ public class NetworkCommander : MonoBehaviour {
 
     public static void SendSyncMessage(string message)
     {
+        if (NetworkServer == null)
+            Debug.LogWarning("Network Server is null!");
         Instance.syncMessage += "#" + message;
     }
     [TextArea(8, 8)]
@@ -31,7 +33,7 @@ public class NetworkCommander : MonoBehaviour {
     {
         if (syncMessage.Length > 0)
         {
-            NetworkServer.BroadcastMessage(syncMessage);
+            NetworkServer.SendData(syncMessage);
         }
         syncMessage = "";
     }

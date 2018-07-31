@@ -940,6 +940,23 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animationVariation: 0
+--- !u!1 &456505604 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1138472442615028, guid: 2a1606cfbafa0cd469ae31252146c9bc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1065792610}
+--- !u!114 &456505605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 456505604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3632b2cc0e38aa14b8ed43d632cff2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMessage: 
 --- !u!1 &516955867
 GameObject:
   m_ObjectHideFlags: 0

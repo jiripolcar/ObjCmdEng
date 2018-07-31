@@ -119,7 +119,7 @@ namespace CommanderEngine
 
         public void MatchTarget_Sitting_CurrentSeatControl()
         {
-            print("anim event __sitdown");
+            //print("anim event __sitdown");
             //    TargetMatcher.Match(gameObject, avatarTargets.bottom, SeatState.ConstraintSit.transform,2);
             Transform target = SeatState.ConstraintSit.transform;
             TargetMatcherPosition.Match(gameObject, avatarTargets.bottom, target, 1);// 0.3f);
@@ -130,7 +130,7 @@ namespace CommanderEngine
 
         public void MatchTarget_StandingUp_CurrentSeatControl()
         {
-            print("anim event __standup");
+           // print("anim event __standup");
             Transform target = SeatState.ConstraintStandUp.transform;
             TargetMatcherPosition.Match(gameObject, gameObject.transform, target, 0.45f);
             //TargetMatcherRotation.Match(gameObject, target, 0.45f);
@@ -149,7 +149,7 @@ namespace CommanderEngine
             yield return new WaitForSeconds(0.5f);
 
             while (IsAnimatorInTransition) yield return 0;
-            Debug.Log("Sitting done");
+
 
 
             yield return new WaitForSeconds(2);

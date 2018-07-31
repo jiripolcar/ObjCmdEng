@@ -22,6 +22,7 @@ namespace Demo
         private void OnEnable()
         {
             StartServer();
+            NetworkCommander.NetworkServer = this;
         }
 
         public bool send;
