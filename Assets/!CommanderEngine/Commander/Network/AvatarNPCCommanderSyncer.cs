@@ -43,6 +43,9 @@ namespace CommanderEngine.Network
                 case StandUp:
                     avatarNPC.StandUp();
                     break;
+                default:
+                    Debug.Log("Cannot determine");
+                    break;
             }
         }
 
