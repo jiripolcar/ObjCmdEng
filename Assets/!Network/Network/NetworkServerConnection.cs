@@ -42,18 +42,20 @@ namespace Demo
                 Debug.Log($"Server: Received: {output}");
                 if (output.Contains("PING"))
                 {
-                    RespondToClient();
+                    BroadcastToClients("PING");
                 }
 
                 _message = null;
             }
         }
 
-        private void RespondToClient()
+
+
+        public void BroadcastToClients(string data)
         {
-            var bytes = Encoding.UTF8.GetBytes("PONG");
+            var bytes = Encoding.UTF8.GetBytes(data);
             Channel.Send(bytes, bytes.Length);
-            Debug.Log($"Server: Sent: PONG");
+            Debug.Log($"Server: Sent: " + data);
         }
 
         public NetworkChannel Channel { get; set; }

@@ -8,20 +8,17 @@ namespace CommanderEngine
     public partial class Commander : MonoBehaviour
     {
         [SerializeField] private List<Command> commandQueue = new List<Command>();
-        [SerializeField] private Command currentCommand;
+        [SerializeField] private Command currentCommand;        
         public Command CurrentCommand { get { return currentCommand; } }
         public bool Busy { get; private set; }
         public bool InCommandCycle { get; private set; }
+        [SerializeField] internal CommanderSyncer syncer;
 
         private void Awake()
         {
             InitAndRegister(this);
         }
-
-
-
-
-
+        
         internal void AddCommand(Command c)
         {
             commandQueue.Add(c);

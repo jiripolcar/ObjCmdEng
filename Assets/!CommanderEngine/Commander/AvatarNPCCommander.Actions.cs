@@ -140,8 +140,9 @@ namespace CommanderEngine
             //, new MatchTargetWeightMask(new Vector3(1, 1, 1), 0), 0.25f, 0.7f);
         }
 
-        private IEnumerator Sit(SeatControl target)
+        internal IEnumerator Sit(SeatControl target)
         {
+            avSyncer?.SendSyncSit(target);
             SeatState = target;
             AnimatorSit = true;
             animator.SetBool("isInTransition", true);
@@ -154,8 +155,9 @@ namespace CommanderEngine
             yield return new WaitForSeconds(2);
         }
 
-        private IEnumerator StandUp()
+        internal IEnumerator StandUp()
         {
+            avSyncer?.SendSyncStandUp();
             AnimatorSit = false;
             animator.SetBool("isInTransition", true);
             yield return new WaitForSeconds(0.5f);

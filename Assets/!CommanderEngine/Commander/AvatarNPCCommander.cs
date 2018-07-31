@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CommanderEngine.Network;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,6 +15,7 @@ namespace CommanderEngine
     {
         [SerializeField] private Animator animator;
         [SerializeField] private AvatarTargets avatarTargets;
+        private AvatarNPCCommanderSyncer avSyncer { get { return (AvatarNPCCommanderSyncer)syncer; } }
 
         private void Reset()
         {

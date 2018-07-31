@@ -67,7 +67,7 @@ namespace CommanderEngine
             float distance = (transform.position - cmd.target.ConstraintStandUp.transform.position).magnitude;
             if (distance > Command.DefaultStoppingDistance)
             {
-                Log.Write(name + " received Sit at " + cmd.target.gameObject.GetObjectIdentifier().identifyAs + " and is too far ("+distance.ToString("0.00")+"). Going there.", LogRecordType.Commander);
+                Log.Write(name + " received Sit at " + cmd.target.gameObject.GetObjectIdentifier().identifyAs + " and is too far (" + distance.ToString("0.00") + "). Going there.", LogRecordType.Commander);
                 yield return StartCoroutine(Walk(cmd, cmd.target.ConstraintStandUp, WalkCommand.WalkCommandEndingStyle.None, false, 0.1f, false));
             }
 
@@ -88,28 +88,25 @@ namespace CommanderEngine
             float intended = Random.Range(0f, 1f);
             while (true)
             {
-                if (nextVariation < 0 && !Busy)
-                {
-                    nextVariation = 5;//Random.Range(0.5f, 2f) * animationVariatorDurationCoefficient;
-                    intended = Random.Range(0f, 1f);
-                }
-                else if (Busy)
+                if (Busy)
                 {
                     nextVariation = -1;
                     intended = 0;
                 }
-
-                nextVariation -= Time.deltaTime;
+                else if (nextVariation < 0)
+                {
+                    nextVariation = Random.Range(0.5f, 2f) * animationVariatorDurationCoefficient;
+                    intended = Random.Range(0f, 1f);
+                }
+                else
+                    nextVariation -= Time.deltaTime;
 
                 if (Mathf.Abs(intended - animationVariation) > 0.001f)
                 {
                     animationVariation += Time.deltaTime / animationVariatorDurationCoefficient * Mathf.Sign(intended - animationVariation);
+                    animator.SetFloat("Variant", animationVariation);
                 }
-
-                animator.SetFloat("Variant", animationVariation);
-
                 yield return null;
-
             }
         }
 

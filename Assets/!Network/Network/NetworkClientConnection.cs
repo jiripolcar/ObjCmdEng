@@ -32,21 +32,8 @@ namespace Demo
 
         public void Update()
         {
-            _elapsed += Time.deltaTime;
-            if (_elapsed > 2.0f)
-            {
-                _elapsed = 0f;
-                PingServer();
-            }
         }
-
-        private void PingServer()
-        {
-            var bytes = Encoding.UTF8.GetBytes("PING");
-            Channel.Send(bytes, bytes.Length);
-            Debug.Log($"Client {_id}: sent PING");
-        }
-
+        
         public void OnDataReceived(byte[] buffer, int dataSize)
         {
             if (_message == null)
@@ -58,7 +45,7 @@ namespace Demo
             {
                 var bytes = _message.Payload();
                 var output = Encoding.UTF8.GetString(bytes);
-                Debug.Log($"Client {_id}: got: {output}");
+                NetworkCommander.ReceiveSyncedCommand(output);
                 _message = null;
             }
         }

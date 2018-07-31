@@ -24,11 +24,19 @@ namespace Demo
             StartServer();
         }
 
+        public bool send;
+        public string toSend;
+
         void Update()
         {
             if (_running)
             {
                 _connectionManager.Update();
+            }
+            if (send)
+            {
+                send = false;
+                SendData(toSend);
             }
         }
 
@@ -79,7 +87,7 @@ namespace Demo
 
         public void OnConnectEvent(int connectionId, int channelId)
         {
-            _connectionManager.Manage<NetworkServerConnection>(_serverId, connectionId, channelId);
+            networkServerConnection = _connectionManager.Manage<NetworkServerConnection>(_serverId, connectionId, channelId);
         }
 
         public void OnDataEvent(int connectionId, int channelId, byte[] buffer, int dataSize)
@@ -90,6 +98,13 @@ namespace Demo
         public void OnDisconnectEvent(int connectionId, int channelId)
         {
             _connectionManager.Disconnect(connectionId, channelId);
+        }
+
+        public NetworkServerConnection networkServerConnection;
+
+        public void SendData(string data)
+        {
+            networkServerConnection.BroadcastToClients(data);
         }
     }
 }
