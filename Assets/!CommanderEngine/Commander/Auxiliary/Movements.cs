@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Movements {
+public static class Movements
+{
 
     public static IEnumerator Move(GameObject target, Vector3 start, Vector3 end, float speed = 1)
     {
@@ -18,7 +19,7 @@ public static class Movements {
     }
 
     public static IEnumerator MoveDuration(GameObject target, Vector3 start, Vector3 end, float time = 1)
-    {        
+    {
         float lerp = 0;
         do
         {
@@ -28,6 +29,24 @@ public static class Movements {
         }
         while (lerp < 1);
     }
+
+    public static IEnumerator TurnTowardsDuration(GameObject target, float targetYaw, float time = 1)
+    {
+        float startEAy = target.transform.eulerAngles.y;
+        float lerp = 0;
+        while (lerp < 1)
+        {
+
+            Vector3 ea = target.transform.eulerAngles;
+            ea.y = Mathf.LerpAngle(startEAy, targetYaw, lerp);
+            target.transform.eulerAngles = ea;
+            yield return 0;
+            lerp += Time.deltaTime / time;
+
+        }
+    }
+
+
 
     public static void LerpPosition(GameObject target, Vector3 start, Vector3 end, float lerp)
     {

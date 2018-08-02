@@ -9,7 +9,7 @@ public class NetworkCommander : MonoBehaviour {
 
     public static NetworkCommander Instance;
 
-    public static bool IsServer = false;
+    public static bool IsServer { get { return NetworkServer != null; } }
     public static NetworkServer NetworkServer;
 
     private const char SyncStringDel = '#';
@@ -43,8 +43,7 @@ public class NetworkCommander : MonoBehaviour {
     {
         string[] multipleSyncsBuffer = data.Split(SyncStringDel);
         foreach (string singleSyncBuffer in multipleSyncsBuffer)
-        {
-            
+        {            
             string[] buffer = singleSyncBuffer.Split(CommanderSyncer.Del);
             Commander cmdr = Commander.Find(buffer[0]);
             Debug.Log("Syncing: " + singleSyncBuffer + (cmdr != null ? " Found " + cmdr.name : "NOT FOUND!"));
