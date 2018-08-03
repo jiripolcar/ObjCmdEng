@@ -30,7 +30,7 @@ namespace Demo
             Debug.Log($"Client {_id}: Disconnected");
         }
 
-        public void Update()
+        public void UpdateNetworkProtocol()
         {
         }
         

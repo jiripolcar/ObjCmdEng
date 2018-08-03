@@ -130,7 +130,6 @@ public class NetworkCommander : MonoBehaviour
 
     public static void ReceiveSyncMessages(string data)
     {
-
         AvatarNPCCommanderSyncMessage.SyncAvatarNPCFromJson(data);
     }
 }

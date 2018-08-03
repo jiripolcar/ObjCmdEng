@@ -21,7 +21,8 @@ namespace Demo.Infrastructure
 
     void Update()
     {
-      HostManager.Update();
+            // This happens twice, HostManager has Update as well
+     // HostManager.Update();
     }
   }
 }

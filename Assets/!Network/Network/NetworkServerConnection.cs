@@ -24,7 +24,7 @@ namespace Demo
             Debug.Log($"Server: Client {_id} disconnected");
         }
 
-        public void Update()
+        public void UpdateNetworkProtocol()
         {
         }
 

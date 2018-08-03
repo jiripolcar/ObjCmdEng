@@ -37,11 +37,11 @@ namespace Demo.Infrastructure
             _connections.Remove(key);
         }
 
-        public void Update()
+        public void UpdateNonMono()
         {
             foreach (var instance in _connections.Values)
             {
-                instance.Update();
+                instance.UpdateNetworkProtocol();
             }
         }
 

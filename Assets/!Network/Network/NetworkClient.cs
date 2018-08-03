@@ -35,7 +35,7 @@ namespace Demo
         {
             if (_running)
             {
-                _connectionManager.Update();
+                _connectionManager.UpdateNonMono();
             }
         }
 

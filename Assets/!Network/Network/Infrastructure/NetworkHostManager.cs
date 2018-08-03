@@ -34,7 +34,8 @@ namespace Demo.Infrastructure
 
     public void Update()
     {
-      byte[] buffer = new byte[1024];
+            Debug.Log(Time.frameCount);
+            byte[] buffer = new byte[1024];
 
       // Notice we process all network events until we get a 'Nothing' response here.
       // Often people just process a single event per frame, and that results in very poor performance.
