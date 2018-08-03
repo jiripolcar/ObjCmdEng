@@ -27,7 +27,7 @@ namespace CommanderEngine.Network
         public string n;    // name
         public Vector3Int p;   // position
         public bool s;      // sitting
-        public float y, f, r, v;    // yaw, front, right, variant
+        public int y, f, r,  v;    // yaw, front, right, variant
 
         public static string JsonFromAvatarNPC(AvatarNPCCommander av)
         {
@@ -40,11 +40,11 @@ namespace CommanderEngine.Network
             {
                 n = av.name,
                 p = Vector3Int.RoundToInt(av.transform.position * 1000),
-                y = av.transform.eulerAngles.y,
+                y = Mathf.RoundToInt(av.transform.eulerAngles.y * 1000),
                 s = av.AnimatorSit,
-                f = av.animator.GetFloat("Forward"),
-                r = av.animator.GetFloat("Turn"),
-                v = av.animator.GetFloat("Variant")
+                f = Mathf.RoundToInt(av.animator.GetFloat("Forward") * 1000),
+                r = Mathf.RoundToInt(av.animator.GetFloat("Turn") * 1000),
+                v = Mathf.RoundToInt(av.animator.GetFloat("Variant") * 1000)
             };
             return msg;
         }
@@ -73,12 +73,12 @@ namespace CommanderEngine.Network
             AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(n);
             av.transform.position = ((Vector3)p) / 1000;
             Vector3 ea = av.transform.eulerAngles;
-            ea.y = y;
+            ea.y = y / 1000;
             av.transform.eulerAngles = ea;
             av.AnimatorSit = s;
-            av.animator.SetFloat("Forward", f);
-            av.animator.SetFloat("Turn", r);
-            av.animator.SetFloat("Variant", v);
+            av.animator.SetFloat("Forward", f / 1000);
+            av.animator.SetFloat("Turn", r / 1000);
+            av.animator.SetFloat("Variant", v / 1000);
         }
 
     }

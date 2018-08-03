@@ -83,32 +83,57 @@ public class NetworkCommander : MonoBehaviour
 
     }*/
 
-    public List<AvatarNPCCommanderSyncMessage> syncList = new List<AvatarNPCCommanderSyncMessage>();
 
-    //public ListOfAvatarNPCCommanderSyncMessage syncList;
+    public ListOfAvatarNPCCommanderSyncMessage syncList;
 
     public static void CollectSyncMessage(AvatarNPCCommanderSyncMessage msg)
     {
-        Instance.syncList./*list.*/Add(msg);
+        Instance.syncList.list.Add(msg);
     }
 
     private void LateUpdate()
     {
-        if (syncList./*list.*/Count > 0)
+        if (syncList.list.Count > 0)
         {
-            string syncJson = JsonUtility.ToJson( syncList[0]);
-            syncList.RemoveAt(0);
+            string syncJson = syncList.ToJson();
+            syncList.list = new List<AvatarNPCCommanderSyncMessage>();
             ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
-            NetworkServer.SendData(syncJson);            
-            //NetworkServer.SendData("China Resources Beer je nejsilnějším hráčem na trhu, pokrývá zhruba jeho čtvrtinu. Jeho nejprodávanější značkou piva je Snow. Nizozemská společnost měla problémy se v Číně více prosadit, protože nejpopulárnější jsou levnější značky.Jednoduché to neměla ani mezi prémiovými značkami, kde jí konkuruje americký koncern AB - InBev.Heineken se nyní chce více soustředit na jiné perspektivní asijské trhy, například Vietnam."); 
+            NetworkServer.SendData(syncJson);
         }
 
     }
 
     public static void ReceiveSyncMessages(string data)
     {
-        /*AvatarNPCCommanderSyncMessage incoming = */
-        AvatarNPCCommanderSyncMessage.SyncAvatarNPCFromJson(data); //JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
-        //incoming.list.ForEach((msg) => msg.ApplyToAvatar());
+        ListOfAvatarNPCCommanderSyncMessage incoming = JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
+        incoming.list.ForEach((msg) => msg.ApplyToAvatar());
     }
+
+
+    /*public List<AvatarNPCCommanderSyncMessage> syncList = new List<AvatarNPCCommanderSyncMessage>();
+
+
+
+public static void CollectSyncMessage(AvatarNPCCommanderSyncMessage msg)
+{
+    Instance.syncList.Add(msg);
+}
+
+private void LateUpdate()
+{
+    if (syncList.Count > 0)
+    {
+        string syncJson = JsonUtility.ToJson(syncList[0]);
+        syncList.RemoveAt(0);
+        ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
+        NetworkServer.SendData(syncJson);
+    }
+
+}
+
+public static void ReceiveSyncMessages(string data)
+{
+
+    AvatarNPCCommanderSyncMessage.SyncAvatarNPCFromJson(data); 
+}*/
 }

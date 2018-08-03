@@ -16,10 +16,10 @@ namespace CommanderEngine.Network
 
         private void Start()
         {
-            timeToSync = Random.Range(0, Configuration.Data.networkSyncInterval);
+            //timeToSync = Random.Range(0, Configuration.Data.networkSyncInterval);
         }
 
-        float timeToSync = 10;
+        float timeToSync = 1;
         private void Update()
         {
             timeToSync -= Time.deltaTime;

@@ -258,7 +258,7 @@ MonoBehaviour:
     networkPort: 7989
     defaultIP: 127.0.0.1
     startAsServer: 1
-    networkSyncInterval: 1
+    networkSyncInterval: 0.25
   configFile: configuration.json
 --- !u!4 &89489108
 Transform:
@@ -958,7 +958,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncList:
-    list: []
+  - n: 
+    p: {x: 0, y: 0, z: 0}
+    s: 0
+    y: 0
+    f: 0
+    r: 0
 --- !u!1 &516955867
 GameObject:
   m_ObjectHideFlags: 0
