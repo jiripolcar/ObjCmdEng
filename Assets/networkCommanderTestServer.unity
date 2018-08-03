@@ -258,7 +258,7 @@ MonoBehaviour:
     networkPort: 7989
     defaultIP: 127.0.0.1
     startAsServer: 1
-    networkSyncInterval: 1
+    networkSyncInterval: 0.1
   configFile: configuration.json
 --- !u!4 &89489108
 Transform:
@@ -941,6 +941,7 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animationVariation: 0
+  variatorRunning: 0
 --- !u!1 &456505604 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1138472442615028, guid: 2a1606cfbafa0cd469ae31252146c9bc,
@@ -1276,6 +1277,7 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animationVariation: 0
+  variatorRunning: 0
 --- !u!95 &905778884 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 72c03526c3adea945ada6eb97cf702fb,
@@ -1502,6 +1504,7 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animationVariation: 0
+  variatorRunning: 0
 --- !u!82 &1113621771
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2275,6 +2278,7 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animationVariation: 0
+  variatorRunning: 0
 --- !u!95 &1355644505 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 62474176914e0854c945e4583082109d,

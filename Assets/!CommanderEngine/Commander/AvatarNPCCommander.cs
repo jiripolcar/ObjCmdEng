@@ -6,7 +6,8 @@ using UnityEngine.AI;
 
 namespace CommanderEngine
 {
-    [System.Serializable] public class AvatarTargets
+    [System.Serializable]
+    public class AvatarTargets
     {
         public Transform bottom, leftFoot, rightFoot;
     }
@@ -18,7 +19,7 @@ namespace CommanderEngine
         private AvatarNPCCommanderSyncer avSyncer { get { return (AvatarNPCCommanderSyncer)syncer; } }
 
         private void Reset()
-        {            
+        {
             nmAgent = gameObject.GetComponent<NavMeshAgent>();
             if (!nmAgent)
                 nmAgent = gameObject.AddComponent<NavMeshAgent>();
@@ -39,7 +40,7 @@ namespace CommanderEngine
 
         private void Start()
         {
-            StartCoroutine(AnimationVariator());
+            animationVariator = StartCoroutine(AnimationVariator());
         }
     }
 }

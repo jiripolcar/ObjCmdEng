@@ -13,7 +13,7 @@ namespace CommanderEngine
             set { animator.SetBool("Sitting", value); }
         }
         private bool IsAnimatorInTransition { get { return animator.GetBool("isInTransition"); } }
-        
+
         [Range(0, 1)] [SerializeField] private float animationVariation = 0;
 
         protected const float animationVariatorDurationCoefficient = 5;
@@ -87,8 +87,11 @@ namespace CommanderEngine
                 Log.Write(name + " received StandUp, already standing.", LogRecordType.Commander);
         }
 
+        public Coroutine animationVariator;
         protected virtual IEnumerator AnimationVariator()
         {
+
+
             float nextVariation = Random.Range(0.5f, 2f) * animationVariatorDurationCoefficient;
             float intended = Random.Range(0f, 1f);
             while (true)

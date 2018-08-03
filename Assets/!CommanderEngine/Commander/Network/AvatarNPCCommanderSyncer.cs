@@ -16,6 +16,10 @@ namespace CommanderEngine.Network
 
         private void Start()
         {
+            if (!NetworkCommander.IsServer && avatarNPC.animationVariator != null)
+            {
+                avatarNPC.StopCoroutine(avatarNPC.animationVariator);                
+            }
             //timeToSync = Random.Range(0, Configuration.Data.networkSyncInterval);
         }
 
