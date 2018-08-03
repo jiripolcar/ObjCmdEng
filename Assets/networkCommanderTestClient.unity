@@ -258,6 +258,7 @@ MonoBehaviour:
     networkPort: 7989
     defaultIP: 192.168.1.50
     startAsServer: 0
+    networkSyncInterval: 0.25
   configFile: configuration.json
 --- !u!4 &89489108
 Transform:
@@ -1472,7 +1473,7 @@ MonoBehaviour:
     successor: 0
     predecessor: 0
     syncsWith: 
-  syncer: {fileID: 1113621775}
+  syncer: {fileID: 0}
   nmAgent: {fileID: 1113621773}
   nmObstacle: {fileID: 1113621772}
   audioSource: {fileID: 1113621771}
@@ -1620,18 +1621,6 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 10edde0048ebbd442bea593ee6ddc634,
     type: 3}
   m_PrefabInternal: {fileID: 313885617}
---- !u!114 &1113621775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1113621769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45b889c558395845a464e582cb0ecf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatarNPC: {fileID: 1113621770}
 --- !u!1 &1155359938
 GameObject:
   m_ObjectHideFlags: 0
@@ -2257,7 +2246,7 @@ MonoBehaviour:
     successor: 0
     predecessor: 0
     syncsWith: 
-  syncer: {fileID: 1355644506}
+  syncer: {fileID: 0}
   nmAgent: {fileID: 1355644503}
   nmObstacle: {fileID: 1355644502}
   audioSource: {fileID: 1355644501}
@@ -2274,18 +2263,6 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 62474176914e0854c945e4583082109d,
     type: 3}
   m_PrefabInternal: {fileID: 1355644498}
---- !u!114 &1355644506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1355644499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45b889c558395845a464e582cb0ecf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatarNPC: {fileID: 1355644504}
 --- !u!1 &1393151156
 GameObject:
   m_ObjectHideFlags: 0
