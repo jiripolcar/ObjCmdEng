@@ -7,8 +7,13 @@ namespace CommanderEngine
 {
     public partial class AvatarNPCCommander : CharacterCommander
     {
-        private bool AnimatorSit { get { return animator.GetBool("Sitting"); } set { animator.SetBool("Sitting", value); } }
+        internal bool AnimatorSit
+        {
+            get { return animator.GetBool("Sitting"); }
+            set { animator.SetBool("Sitting", value); }
+        }
         private bool IsAnimatorInTransition { get { return animator.GetBool("isInTransition"); } }
+        
         [Range(0, 1)] [SerializeField] private float animationVariation = 0;
 
         protected const float animationVariatorDurationCoefficient = 5;

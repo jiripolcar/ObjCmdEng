@@ -7,8 +7,26 @@ namespace CommanderEngine.Network
 {
     public class AvatarNPCCommanderSyncer : CommanderSyncer
     {
-        [SerializeField] private AvatarNPCCommander avatarNPC;
-        private const string Sit = "SI";
+        [SerializeField] internal AvatarNPCCommander avatarNPC;
+        
+        public void DoSync()
+        {
+            NetworkCommander.CollectSyncMessage(AvatarNPCCommanderSyncMessage.SyncFromAvatarNPC(avatarNPC));
+        }
+
+        float timeToSync = Configuration.Data.networkSyncInterval;
+        private void Update()
+        {
+            timeToSync -= Time.deltaTime;
+            if (timeToSync < 0)
+            {
+                DoSync();
+                timeToSync = Configuration.Data.networkSyncInterval;                
+            }
+        }
+
+
+        /*private const string Sit = "SI";
         private const string StandUp = "SU";
         private const string Pos = "PS";
 
@@ -17,6 +35,7 @@ namespace CommanderEngine.Network
         {
             lastSyncedPosition = transform.position;
             lastSyncedYaw = transform.eulerAngles.y;
+            StartCoroutine(PositionSyncer());
         }
 
         private void Reset()
@@ -35,6 +54,7 @@ namespace CommanderEngine.Network
             if (Configuration.Data.startAsServer)
                 NetworkCommander.SendSyncMessage(name + Del + StandUp);
         }
+
 
         private const float SyncPosInterval = 0.25f;
         private float lastSyncPos = 0;
@@ -55,7 +75,10 @@ namespace CommanderEngine.Network
                     {
                         lastSyncPos = SyncPosInterval;
                         if ((lastSyncedPosition - pos).magnitude > LeastPositionSyncDistance)
+                        {
                             NetworkCommander.SendSyncMessage(name + Del + Pos + Del + pos.x.ToString("0.00") + Del + pos.y.ToString("0.00") + Del + pos.z.ToString("0.00") + Del + yaw.ToString("0.00"));
+                            lastSyncedPosition = pos;
+                        }
                     }
                     lastSyncPos -= Time.deltaTime;
                     yield return 0;
@@ -75,14 +98,14 @@ namespace CommanderEngine.Network
             switch (buffer[1])
             {
                 case Sit:
-                    avatarNPC.StartCoroutine(avatarNPC.Sit(ObjectIdentifier.Find(buffer[5]).seatControl));
+                    avatarNPC.StartCoroutine(avatarNPC.Sit(ObjectIdentifier.Find(buffer[2]).seatControl));
                     break;
                 case StandUp:
                     avatarNPC.StartCoroutine(avatarNPC.StandUp());
                     break;
                 case Pos:
                     Vector3 targetPos = new Vector3(float.Parse(buffer[2]), float.Parse(buffer[3]), float.Parse(buffer[4]));
-                    float yaw = float.Parse(buffer[4]);
+                    float yaw = float.Parse(buffer[5]);
                     StartCoroutine(Movements.TurnTowardsDuration(gameObject, yaw, SyncPosInterval));
                     StartCoroutine(Movements.MoveDuration(gameObject, pos, targetPos, SyncPosInterval));
                     break;
@@ -92,7 +115,7 @@ namespace CommanderEngine.Network
             }
         }
 
-
+        */
 
     }
 }

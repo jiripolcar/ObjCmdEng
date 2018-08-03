@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using CommanderEngine.Network;
 using Demo.Infrastructure;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -25,19 +27,11 @@ namespace Demo
             NetworkCommander.NetworkServer = this;
         }
 
-        public bool send;
-        public string toSend;
-
         void Update()
         {
             if (_running)
             {
                 _connectionManager.Update();
-            }
-            if (send)
-            {
-                send = false;
-                SendData(toSend);
             }
         }
 
@@ -88,6 +82,8 @@ namespace Demo
 
         public void OnConnectEvent(int connectionId, int channelId)
         {
+            Debug.LogWarning("OnConnectEvent");
+            //  networkServerConnections.Add(_connectionManager.Manage<NetworkServerConnection>(_serverId, connectionId, channelId));
             networkServerConnection = _connectionManager.Manage<NetworkServerConnection>(_serverId, connectionId, channelId);
         }
 
@@ -101,11 +97,26 @@ namespace Demo
             _connectionManager.Disconnect(connectionId, channelId);
         }
 
-        public NetworkServerConnection networkServerConnection;
+        /*public List<NetworkServerConnection> networkServerConnections=new List<NetworkServerConnection>();
 
-        public void SendData(string data)
+        public bool SendData(string data)
         {
+            if (networkServerConnections == null || networkServerConnections.Count == 0)
+                return false;
+            networkServerConnections.ForEach((nsc) => nsc.BroadcastToClients(data));
+            return true;
+        }*/
+
+
+        NetworkServerConnection networkServerConnection;
+        public bool SendData(string data)
+        {
+            if (networkServerConnection == null)
+                return false;
             networkServerConnection.BroadcastToClients(data);
+            return true;
         }
+
+
     }
 }

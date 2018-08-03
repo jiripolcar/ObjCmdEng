@@ -46,7 +46,8 @@ namespace Demo
                 var bytes = _message.Payload();
                 var output = Encoding.UTF8.GetString(bytes);
                 Debug.Log(output);
-                NetworkCommander.ReceiveSyncedCommand(output);
+                //NetworkCommander.ReceiveSyncedCommand(output);
+                NetworkCommander.ReceiveSyncMessages(output);
                 _message = null;
             }
         }

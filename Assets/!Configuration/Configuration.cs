@@ -8,6 +8,7 @@ public class ConfigurationData
     public string defaultIP = "localhost";
     public bool startAsServer = true;
 
+    public float networkSyncInterval = 0.25f;
 
 
     public override string ToString()

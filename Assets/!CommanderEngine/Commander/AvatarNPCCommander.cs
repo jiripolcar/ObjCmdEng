@@ -13,12 +13,12 @@ namespace CommanderEngine
 
     public partial class AvatarNPCCommander : CharacterCommander
     {
-        [SerializeField] private Animator animator;
+        [SerializeField] internal Animator animator;
         [SerializeField] private AvatarTargets avatarTargets;
         private AvatarNPCCommanderSyncer avSyncer { get { return (AvatarNPCCommanderSyncer)syncer; } }
 
         private void Reset()
-        {
+        {            
             nmAgent = gameObject.GetComponent<NavMeshAgent>();
             if (!nmAgent)
                 nmAgent = gameObject.AddComponent<NavMeshAgent>();

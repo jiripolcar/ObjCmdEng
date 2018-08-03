@@ -142,7 +142,6 @@ namespace CommanderEngine
 
         internal IEnumerator Sit(SeatControl target)
         {
-            avSyncer?.SendSyncSit(target);
             SeatState = target;
             AnimatorSit = true;
             animator.SetBool("isInTransition", true);
@@ -157,7 +156,6 @@ namespace CommanderEngine
 
         internal IEnumerator StandUp()
         {
-            avSyncer?.SendSyncStandUp();
             AnimatorSit = false;
             animator.SetBool("isInTransition", true);
             yield return new WaitForSeconds(0.5f);
