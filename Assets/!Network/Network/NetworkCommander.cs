@@ -96,7 +96,7 @@ public class NetworkCommander : MonoBehaviour
     {
         if (syncList.list.Count > 0)
         {
-            string syncJson = JsonUtility.ToJson(syncList);
+            string syncJson = syncList.ToJson();
             ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
             NetworkServer.SendData(syncJson);
             syncList.list = new List<AvatarNPCCommanderSyncMessage>();
@@ -107,7 +107,7 @@ public class NetworkCommander : MonoBehaviour
 
     public static void ReceiveSyncMessages(string data)
     {
-        ListOfAvatarNPCCommanderSyncMessage incoming = JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
+        ListOfAvatarNPCCommanderSyncMessage incoming = ListOfAvatarNPCCommanderSyncMessage.FromJson(data); //JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
         incoming.list.ForEach((msg) => msg.ApplyToAvatar());
     }
 }

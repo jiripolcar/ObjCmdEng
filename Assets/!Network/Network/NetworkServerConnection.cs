@@ -55,7 +55,6 @@ namespace Demo
         {
             var bytes = Encoding.UTF8.GetBytes(data);
             Channel.Send(bytes, bytes.Length);
-            Debug.Log($"Server: Sent: " + data);
         }
 
         public NetworkChannel Channel { get; set; }

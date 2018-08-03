@@ -14,7 +14,12 @@ namespace CommanderEngine.Network
             NetworkCommander.CollectSyncMessage(AvatarNPCCommanderSyncMessage.SyncFromAvatarNPC(avatarNPC));
         }
 
-        float timeToSync = Configuration.Data.networkSyncInterval;
+        private void Start()
+        {
+            timeToSync = Random.Range(0, Configuration.Data.networkSyncInterval);
+        }
+
+        float timeToSync = 10;
         private void Update()
         {
             timeToSync -= Time.deltaTime;
