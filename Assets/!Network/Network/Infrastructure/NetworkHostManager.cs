@@ -32,7 +32,7 @@ namespace Demo.Infrastructure
       }
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
             Debug.Log(Time.frameCount);
             byte[] buffer = new byte[1024];

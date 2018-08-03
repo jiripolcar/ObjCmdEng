@@ -31,7 +31,7 @@ namespace Demo
             ConnectToRemoteHost();
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if (_running)
             {

@@ -19,10 +19,10 @@ namespace Demo.Infrastructure
       NetworkTransport.Init(config);
     }
 
-    void Update()
-    {
+    //void Update()
+    //{
             // This happens twice, HostManager has Update as well
      // HostManager.Update();
-    }
+    //}
   }
 }

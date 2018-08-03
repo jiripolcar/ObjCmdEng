@@ -27,7 +27,7 @@ namespace Demo
             NetworkCommander.NetworkServer = this;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if (_running)
             {
