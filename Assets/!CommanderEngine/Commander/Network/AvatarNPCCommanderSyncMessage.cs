@@ -76,9 +76,9 @@ namespace CommanderEngine.Network
             ea.y = y / 1000;
             av.transform.eulerAngles = ea;
             av.AnimatorSit = s;
-            av.animator.SetFloat("Forward", f / 1000);
-            av.animator.SetFloat("Turn", r / 1000);
-            av.animator.SetFloat("Variant", v / 1000);
+            av.animator.SetFloat("Forward", ((float)f) / 1000);
+            av.animator.SetFloat("Turn", ((float)r) / 1000);
+            av.animator.SetFloat("Variant", ((float)v) / 1000);
         }
 
     }

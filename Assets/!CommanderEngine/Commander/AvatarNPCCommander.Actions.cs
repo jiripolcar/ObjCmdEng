@@ -121,6 +121,8 @@ namespace CommanderEngine
         {
             //print("anim event __sitdown");
             //    TargetMatcher.Match(gameObject, avatarTargets.bottom, SeatState.ConstraintSit.transform,2);
+            if (SeatState == null)
+                return;
             Transform target = SeatState.ConstraintSit.transform;
             TargetMatcherPosition.Match(gameObject, avatarTargets.bottom, target, 1);// 0.3f);
             TargetMatcherRotation.Match(gameObject, target, 0.5f);
@@ -130,7 +132,9 @@ namespace CommanderEngine
 
         public void MatchTarget_StandingUp_CurrentSeatControl()
         {
-           // print("anim event __standup");
+            // print("anim event __standup");
+            if (SeatState == null)
+                return;
             Transform target = SeatState.ConstraintStandUp.transform;
             TargetMatcherPosition.Match(gameObject, gameObject.transform, target, 0.45f);
             //TargetMatcherRotation.Match(gameObject, target, 0.45f);
