@@ -24,10 +24,10 @@ namespace CommanderEngine.Network
     [System.Serializable]
     public class AvatarNPCCommanderSyncMessage
     {
-        public string name;
-        public Vector3 position;
-        public bool sitting;
-        public float yaw, forward, right, variation;
+        public string n;    // name
+        public Vector3 p;   // position
+        public bool s;      // sitting
+        public float y, f, r, v;    // yaw, front, right, variant
 
         public static string JsonFromAvatarNPC(AvatarNPCCommander av)
         {
@@ -38,13 +38,13 @@ namespace CommanderEngine.Network
         {
             AvatarNPCCommanderSyncMessage msg = new AvatarNPCCommanderSyncMessage()
             {
-                name = av.name,
-                position = av.transform.position,
-                yaw = av.transform.eulerAngles.y,
-                sitting = av.AnimatorSit,
-                forward = av.animator.GetFloat("Forward"),
-                right = av.animator.GetFloat("Turn"),
-                variation = av.animator.GetFloat("Variant")
+                n = av.name,
+                p = av.transform.position,
+                y = av.transform.eulerAngles.y,
+                s = av.AnimatorSit,
+                f = av.animator.GetFloat("Forward"),
+                r = av.animator.GetFloat("Turn"),
+                v = av.animator.GetFloat("Variant")
             };
             return msg;
         }
@@ -57,28 +57,28 @@ namespace CommanderEngine.Network
 
         public static void SyncAvatarNPC(AvatarNPCCommanderSyncMessage msg)
         {
-            AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(msg.name);
-            av.transform.position = msg.position;
+            AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(msg.n);
+            av.transform.position = msg.p;
             Vector3 ea = av.transform.eulerAngles;
-            ea.y = msg.yaw;
+            ea.y = msg.y;
             av.transform.eulerAngles = ea;
-            av.AnimatorSit = msg.sitting;
-            av.animator.SetFloat("Forward", msg.forward);
-            av.animator.SetFloat("Turn", msg.right);
-            av.animator.SetFloat("Variant", msg.variation);
+            av.AnimatorSit = msg.s;
+            av.animator.SetFloat("Forward", msg.f);
+            av.animator.SetFloat("Turn", msg.r);
+            av.animator.SetFloat("Variant", msg.v);
         }
 
         public void ApplyToAvatar()
         {
-            AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(name);
-            av.transform.position = position;
+            AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(n);
+            av.transform.position = p;
             Vector3 ea = av.transform.eulerAngles;
-            ea.y = yaw;
+            ea.y = y;
             av.transform.eulerAngles = ea;
-            av.AnimatorSit = sitting;
-            av.animator.SetFloat("Forward", forward);
-            av.animator.SetFloat("Turn", right);
-            av.animator.SetFloat("Variant", variation);
+            av.AnimatorSit = s;
+            av.animator.SetFloat("Forward", f);
+            av.animator.SetFloat("Turn", r);
+            av.animator.SetFloat("Variant", v);
         }
 
     }
