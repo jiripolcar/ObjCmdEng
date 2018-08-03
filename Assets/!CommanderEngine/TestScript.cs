@@ -47,7 +47,7 @@ public class TestScript : MonoBehaviour
     private void Start()
     {
         Invoke("Sit", 0.5f);
-     //   Invoke("Run", 1f);
+       Invoke("Run", 1f);
 
     }
 

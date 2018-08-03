@@ -25,7 +25,7 @@ namespace CommanderEngine.Network
     public class AvatarNPCCommanderSyncMessage
     {
         public string n;    // name
-        public Vector3 p;   // position
+        public Vector3Int p;   // position
         public bool s;      // sitting
         public float y, f, r, v;    // yaw, front, right, variant
 
@@ -39,7 +39,7 @@ namespace CommanderEngine.Network
             AvatarNPCCommanderSyncMessage msg = new AvatarNPCCommanderSyncMessage()
             {
                 n = av.name,
-                p = av.transform.position,
+                p = Vector3Int.RoundToInt(av.transform.position * 1000),
                 y = av.transform.eulerAngles.y,
                 s = av.AnimatorSit,
                 f = av.animator.GetFloat("Forward"),
@@ -52,13 +52,13 @@ namespace CommanderEngine.Network
         public static void SyncAvatarNPCFromJson(string json)
         {
             AvatarNPCCommanderSyncMessage msg = JsonUtility.FromJson<AvatarNPCCommanderSyncMessage>(json);
-            SyncAvatarNPC(msg);
+            msg.ApplyToAvatar();
         }
 
-        public static void SyncAvatarNPC(AvatarNPCCommanderSyncMessage msg)
+        /*public static void SyncAvatarNPC(AvatarNPCCommanderSyncMessage msg)
         {
             AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(msg.n);
-            av.transform.position = msg.p;
+            av.transform.position = ((Vector3)msg.p) / 1000;
             Vector3 ea = av.transform.eulerAngles;
             ea.y = msg.y;
             av.transform.eulerAngles = ea;
@@ -66,12 +66,12 @@ namespace CommanderEngine.Network
             av.animator.SetFloat("Forward", msg.f);
             av.animator.SetFloat("Turn", msg.r);
             av.animator.SetFloat("Variant", msg.v);
-        }
+        }*/
 
         public void ApplyToAvatar()
         {
             AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(n);
-            av.transform.position = p;
+            av.transform.position = ((Vector3)p) / 1000;
             Vector3 ea = av.transform.eulerAngles;
             ea.y = y;
             av.transform.eulerAngles = ea;

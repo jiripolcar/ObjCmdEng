@@ -9,6 +9,7 @@ public class ConfigurationData
     public bool startAsServer = true;
 
     public float networkSyncInterval = 0.25f;
+    //public int vector3ToIntPrecision = 1000;
 
 
     public override string ToString()
