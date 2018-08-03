@@ -5,6 +5,23 @@ using UnityEngine;
 namespace CommanderEngine.Network
 {
     [System.Serializable]
+    public class ListOfAvatarNPCCommanderSyncMessage
+    {
+        public List<AvatarNPCCommanderSyncMessage> list;
+
+        public string ToJson()
+        {
+            return JsonUtility.ToJson(this);
+
+        }
+
+        public static ListOfAvatarNPCCommanderSyncMessage FromJson(string json)
+        {
+            return JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(json);
+        }
+    }
+
+    [System.Serializable]
     public class AvatarNPCCommanderSyncMessage
     {
         public string name;
