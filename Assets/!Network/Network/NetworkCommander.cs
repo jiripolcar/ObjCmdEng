@@ -83,31 +83,32 @@ public class NetworkCommander : MonoBehaviour
 
     }*/
 
-    //public List<AvatarNPCCommanderSyncMessage> syncList = new List<AvatarNPCCommanderSyncMessage>();
+    public List<AvatarNPCCommanderSyncMessage> syncList = new List<AvatarNPCCommanderSyncMessage>();
 
-    public ListOfAvatarNPCCommanderSyncMessage syncList;
+    //public ListOfAvatarNPCCommanderSyncMessage syncList;
 
     public static void CollectSyncMessage(AvatarNPCCommanderSyncMessage msg)
     {
-        Instance.syncList.list.Add(msg);
+        Instance.syncList./*list.*/Add(msg);
     }
 
     private void LateUpdate()
     {
-        if (syncList.list.Count > 0)
+        if (syncList./*list.*/Count > 0)
         {
-            string syncJson = syncList.ToJson();
+            string syncJson = JsonUtility.ToJson( syncList[0]);
+            syncList.RemoveAt(0);
             ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
-            NetworkServer.SendData(syncJson);
-            syncList.list = new List<AvatarNPCCommanderSyncMessage>();
-
+            NetworkServer.SendData(syncJson);            
+            //NetworkServer.SendData("China Resources Beer je nejsilnějším hráčem na trhu, pokrývá zhruba jeho čtvrtinu. Jeho nejprodávanější značkou piva je Snow. Nizozemská společnost měla problémy se v Číně více prosadit, protože nejpopulárnější jsou levnější značky.Jednoduché to neměla ani mezi prémiovými značkami, kde jí konkuruje americký koncern AB - InBev.Heineken se nyní chce více soustředit na jiné perspektivní asijské trhy, například Vietnam."); 
         }
 
     }
 
     public static void ReceiveSyncMessages(string data)
     {
-        ListOfAvatarNPCCommanderSyncMessage incoming = ListOfAvatarNPCCommanderSyncMessage.FromJson(data); //JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
-        incoming.list.ForEach((msg) => msg.ApplyToAvatar());
+        /*AvatarNPCCommanderSyncMessage incoming = */
+        AvatarNPCCommanderSyncMessage.SyncAvatarNPCFromJson(data); //JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
+        //incoming.list.ForEach((msg) => msg.ApplyToAvatar());
     }
 }
