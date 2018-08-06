@@ -4,37 +4,79 @@ using UnityEngine;
 
 namespace CommanderEngine.Network
 {
+
+
     [System.Serializable]
     public class ListOfAvatarNPCCommanderSyncMessage
     {
+        public const char Del = ';';
         public List<AvatarNPCCommanderSyncMessage> list;
 
-        public string ToJson()
+        public void Push(AvatarNPCCommanderSyncMessage msg)
         {
-            return JsonUtility.ToJson(this);
+            list.Add(msg);
+        }
+
+        public AvatarNPCCommanderSyncMessage Pull()
+        {
+            if (list.Count > 0)
+            {
+                AvatarNPCCommanderSyncMessage msg = list[0];
+                list.RemoveAt(0);
+                return msg;
+            }
+            else return null;
+        }
+
+        public string Serialize()
+        {
+            string ser = "";
+            for(int i = 0; i < list.Count; i++)
+            {
+                ser += list[i].Serialize();
+                if (i < list.Count - 1)
+                    ser += Del;
+            }
+            return ser;
+            //return JsonUtility.ToJson(this);
 
         }
 
-        public static ListOfAvatarNPCCommanderSyncMessage FromJson(string json)
+        public static ListOfAvatarNPCCommanderSyncMessage Deserialize(string serialized)
         {
-            return JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(json);
+            string[] b = serialized.Split(Del);
+            ListOfAvatarNPCCommanderSyncMessage l = new ListOfAvatarNPCCommanderSyncMessage();
+            l.list = new List<AvatarNPCCommanderSyncMessage>();
+            foreach (string s in b)
+            {
+                l.list.Add(AvatarNPCCommanderSyncMessage.FromString(s));
+            }
+            return l;
+            //return JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(json);
         }
     }
 
     [System.Serializable]
     public class AvatarNPCCommanderSyncMessage
     {
+        public const char Del = ',';
+
         public string n;    // name
         public Vector3Int p;   // position
         public bool s;      // sitting
-        public int y, f, r,  v;    // yaw, front, right, variant
+        public int y, f, r, v;    // yaw, front, right, variant
 
-        public static string JsonFromAvatarNPC(AvatarNPCCommander av)
+        public string Serialize()
         {
-            return JsonUtility.ToJson(SyncFromAvatarNPC(av));
+           // AvatarNPCCommanderSyncMessage msg = ToSyncMessage(av);
+            return n + Del + p.x + Del + p.y + Del +p.z + Del
+                + (s ? "1" : "0") + Del + y + Del + f + Del + r + Del + v;
+
+
+            //return JsonUtility.ToJson(ToSyncMessage(av));
         }
 
-        public static AvatarNPCCommanderSyncMessage SyncFromAvatarNPC(AvatarNPCCommander av)
+        public static AvatarNPCCommanderSyncMessage ToSyncMessage(AvatarNPCCommander av)
         {
             AvatarNPCCommanderSyncMessage msg = new AvatarNPCCommanderSyncMessage()
             {
@@ -49,10 +91,26 @@ namespace CommanderEngine.Network
             return msg;
         }
 
-        public static void SyncAvatarNPCFromJson(string json)
+        public static void Deserialize(string serialized)
         {
-            AvatarNPCCommanderSyncMessage msg = JsonUtility.FromJson<AvatarNPCCommanderSyncMessage>(json);
-            msg.ApplyToAvatar();
+            AvatarNPCCommanderSyncMessage msg = FromString(serialized); //  JsonUtility.FromJson<AvatarNPCCommanderSyncMessage>(serialized);
+            msg.Apply();
+        }
+
+        public static AvatarNPCCommanderSyncMessage FromString(string serialized)
+        {
+            string[] b = serialized.Split(Del);
+            AvatarNPCCommanderSyncMessage msg = new AvatarNPCCommanderSyncMessage()
+            {
+                n = b[0],
+                p = new Vector3Int(int.Parse(b[1]), int.Parse(b[2]), int.Parse(b[3])),
+                s = b[4] == "1" ? true : false,
+                y = int.Parse(b[5]),
+                f = int.Parse(b[6]),
+                r = int.Parse(b[7]),
+                v = int.Parse(b[8])
+            };
+            return msg;
         }
 
         /*public static void SyncAvatarNPC(AvatarNPCCommanderSyncMessage msg)
@@ -68,7 +126,7 @@ namespace CommanderEngine.Network
             av.animator.SetFloat("Variant", msg.v);
         }*/
 
-        public void ApplyToAvatar()
+        public void Apply()
         {
             AvatarNPCCommander av = (AvatarNPCCommander)Commander.Find(n);
             av.transform.position = ((Vector3)p) / 1000;

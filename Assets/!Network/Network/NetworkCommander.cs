@@ -84,6 +84,31 @@ public class NetworkCommander : MonoBehaviour
     }*/
 
 
+    /*  public ListOfAvatarNPCCommanderSyncMessage syncList;
+
+      public static void CollectSyncMessage(AvatarNPCCommanderSyncMessage msg)
+      {
+          Instance.syncList.list.Add(msg);
+      }
+
+      private void LateUpdate()
+      {
+          if (syncList.list.Count > 0)
+          {
+              string syncJson = syncList.ToJson();
+              syncList.list = new List<AvatarNPCCommanderSyncMessage>();
+              ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
+              NetworkServer.SendData(syncJson);
+          }
+
+      }
+
+      public static void ReceiveSyncMessages(string data)
+      {
+          ListOfAvatarNPCCommanderSyncMessage incoming = JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
+          incoming.list.ForEach((msg) => msg.Apply());
+      }*/
+
     public ListOfAvatarNPCCommanderSyncMessage syncList;
 
     public static void CollectSyncMessage(AvatarNPCCommanderSyncMessage msg)
@@ -95,20 +120,19 @@ public class NetworkCommander : MonoBehaviour
     {
         if (syncList.list.Count > 0)
         {
-            string syncJson = syncList.ToJson();
+            string syncString = syncList.Serialize();
             syncList.list = new List<AvatarNPCCommanderSyncMessage>();
-            ConsoleLog.Log.Write(syncJson, ConsoleLog.LogRecordType.NetworkCommander, false);
-            NetworkServer.SendData(syncJson);
+            ConsoleLog.Log.Write(syncString, ConsoleLog.LogRecordType.NetworkCommander, false);
+            NetworkServer.SendData(syncString);
         }
 
     }
 
     public static void ReceiveSyncMessages(string data)
     {
-        ListOfAvatarNPCCommanderSyncMessage incoming = JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
-        incoming.list.ForEach((msg) => msg.ApplyToAvatar());
+        ListOfAvatarNPCCommanderSyncMessage incoming = ListOfAvatarNPCCommanderSyncMessage.Deserialize(data);//  JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(data);
+        incoming.list.ForEach((msg) => msg.Apply());
     }
-
 
     /*  public List<AvatarNPCCommanderSyncMessage> syncList = new List<AvatarNPCCommanderSyncMessage>();
 

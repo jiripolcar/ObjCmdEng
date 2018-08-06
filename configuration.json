@@ -2,5 +2,5 @@
     "networkPort": 7989,
     "defaultIP": "127.0.0.1",
     "startAsServer": true,
-    "networkSyncInterval": 0.05000000074505806
+    "networkSyncInterval": 0.30000001192092898
 }

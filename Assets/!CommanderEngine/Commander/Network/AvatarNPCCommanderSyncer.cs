@@ -11,7 +11,7 @@ namespace CommanderEngine.Network
         
         public void DoSync()
         {
-            NetworkCommander.CollectSyncMessage(AvatarNPCCommanderSyncMessage.SyncFromAvatarNPC(avatarNPC));
+            NetworkCommander.CollectSyncMessage(AvatarNPCCommanderSyncMessage.ToSyncMessage(avatarNPC));
         }
 
         private void Start()
