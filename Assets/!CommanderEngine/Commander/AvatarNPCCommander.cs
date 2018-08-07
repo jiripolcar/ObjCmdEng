@@ -16,7 +16,7 @@ namespace CommanderEngine
     {
         [SerializeField] internal Animator animator;
         [SerializeField] private AvatarTargets avatarTargets;
-        private AvatarNPCCommanderSyncer avSyncer { get { return (AvatarNPCCommanderSyncer)syncer; } }
+        private AvatarSyncer avSyncer { get { return (AvatarSyncer)syncer; } }
 
         private void Reset()
         {

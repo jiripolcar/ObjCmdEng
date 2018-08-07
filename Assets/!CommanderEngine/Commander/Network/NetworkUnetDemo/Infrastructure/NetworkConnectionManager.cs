@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
     public class NetworkConnectionManager
     {

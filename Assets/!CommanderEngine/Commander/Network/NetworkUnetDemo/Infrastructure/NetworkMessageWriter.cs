@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine.Networking;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
   /// <summary>
   /// Convert a byte stream into a byte stream with a leading size.

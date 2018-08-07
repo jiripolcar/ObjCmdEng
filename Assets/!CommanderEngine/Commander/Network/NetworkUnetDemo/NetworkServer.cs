@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using CommanderEngine.Network;
-using Demo.Infrastructure;
+using NetworkUnetDemo.Infrastructure;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Demo
+namespace NetworkUnetDemo
 {
     public class NetworkServer : MonoBehaviour, INetworkEventHandler
     {

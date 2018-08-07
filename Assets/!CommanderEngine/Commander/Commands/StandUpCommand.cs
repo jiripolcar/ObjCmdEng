@@ -11,7 +11,7 @@ namespace CommanderEngine
         public override string ToString()
         {
             string s = base.ToString();
-            s += ";cmd:stadnup";
+            s += parDel + "cmd" + parSep + "standup";
             return s;
         }
 

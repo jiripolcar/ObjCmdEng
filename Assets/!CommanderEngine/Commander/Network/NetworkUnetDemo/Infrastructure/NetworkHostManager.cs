@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
     /// <summary>
     /// Due to poor design, there's no way to 'native' way to bind the incoming events 

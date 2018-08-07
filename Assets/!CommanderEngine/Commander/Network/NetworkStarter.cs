@@ -1,5 +1,5 @@
-﻿using Demo;
-using Demo.Infrastructure;
+﻿using NetworkUnetDemo;
+using NetworkUnetDemo.Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

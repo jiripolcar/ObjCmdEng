@@ -1,39 +1,33 @@
 ﻿using System;
 using System.Text;
-using Demo.Infrastructure;
+using NetworkUnetDemo.Infrastructure;
 using UnityEngine;
-using UnityEngine.Networking;
 
-namespace Demo
+namespace NetworkUnetDemo
 {
     /// <summary>
-    /// Simple network client; 'Ping' server every 2 seconds
+    /// Simple network server; respond to 'Ping' with 'Pong'.
     /// </summary>
-    public class NetworkClientConnection : INetworkProtocol
+    public class NetworkServerConnection : INetworkProtocol
     {
-        private string _id;
-
-        private float _elapsed;
-
         private NetworkMessageReader _message;
-
-        public NetworkChannel Channel { get; set; }
+        private string _id;
 
         public void OnConnected()
         {
             _id = Guid.NewGuid().ToString();
-            Debug.Log($"Client {_id}: Connected");
+            Debug.Log($"Server: Client {_id} connected");
         }
 
         public void OnDisconnected()
         {
-            Debug.Log($"Client {_id}: Disconnected");
+            Debug.Log($"Server: Client {_id} disconnected");
         }
 
         public void UpdateNetworkProtocol()
         {
         }
-        
+
         public void OnDataReceived(byte[] buffer, int dataSize)
         {
             if (_message == null)
@@ -45,11 +39,24 @@ namespace Demo
             {
                 var bytes = _message.Payload();
                 var output = Encoding.UTF8.GetString(bytes);
-                Debug.Log(output);
-                //NetworkCommander.ReceiveSyncedCommand(output);
-                NetworkCommander.ReceiveSyncMessages(output);
+                Debug.Log($"Server: Received: {output}");
+                if (output.Contains("PING"))
+                {
+                    BroadcastToClients("PING");
+                }
+
                 _message = null;
             }
         }
+
+
+
+        public void BroadcastToClients(string data)
+        {
+            var bytes = Encoding.UTF8.GetBytes(data);
+            Channel.Send(bytes, bytes.Length);
+        }
+
+        public NetworkChannel Channel { get; set; }
     }
 }

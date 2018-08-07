@@ -258,7 +258,7 @@ MonoBehaviour:
     networkPort: 7989
     defaultIP: 127.0.0.1
     startAsServer: 1
-    networkSyncInterval: 0.3
+    networkSyncInterval: 0.075
   configFile: configuration.json
 --- !u!4 &89489108
 Transform:
@@ -940,7 +940,7 @@ MonoBehaviour:
     bottom: {fileID: 545859213}
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
-  animationVariation: 0
+  animatorVariation: 0
 --- !u!1 &456505604 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1138472442615028, guid: 2a1606cfbafa0cd469ae31252146c9bc,
@@ -957,7 +957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3632b2cc0e38aa14b8ed43d632cff2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncList: []
+  syncData:
+    avatarNPCSync: []
 --- !u!1 &516955867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,7 +1276,7 @@ MonoBehaviour:
     bottom: {fileID: 1773960680}
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
-  animationVariation: 0
+  animatorVariation: 0
 --- !u!95 &905778884 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 72c03526c3adea945ada6eb97cf702fb,
@@ -1501,7 +1502,7 @@ MonoBehaviour:
     bottom: {fileID: 1914955544}
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
-  animationVariation: 0
+  animatorVariation: 0
 --- !u!82 &1113621771
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1638,6 +1639,23 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 10edde0048ebbd442bea593ee6ddc634,
     type: 3}
   m_PrefabInternal: {fileID: 313885617}
+--- !u!114 &1113621775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1113621769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bb4b38f7322ae468090854428f106e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 1113621771}
+  jaw: {fileID: 1340224542}
+  maxValue: 43
+  minValue: 30
+  defaultValue: 0
+  interval: 0.1
 --- !u!1 &1155359938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +1983,10 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1250630981}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1260723556 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100082, guid: 62474176914e0854c945e4583082109d, type: 3}
+  m_PrefabInternal: {fileID: 1355644498}
 --- !u!1 &1272278127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,6 +2015,10 @@ Transform:
   m_Father: {fileID: 1451309732}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1340224542 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100080, guid: 10edde0048ebbd442bea593ee6ddc634, type: 3}
+  m_PrefabInternal: {fileID: 313885617}
 --- !u!1001 &1355644498
 Prefab:
   m_ObjectHideFlags: 0
@@ -2274,12 +2300,29 @@ MonoBehaviour:
     bottom: {fileID: 986697845}
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
-  animationVariation: 0
+  animatorVariation: 0
 --- !u!95 &1355644505 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 62474176914e0854c945e4583082109d,
     type: 3}
   m_PrefabInternal: {fileID: 1355644498}
+--- !u!114 &1355644506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1355644499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bb4b38f7322ae468090854428f106e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 1355644501}
+  jaw: {fileID: 1260723556}
+  maxValue: 43
+  minValue: 30
+  defaultValue: 0
+  interval: 0.1
 --- !u!1 &1393151156
 GameObject:
   m_ObjectHideFlags: 0

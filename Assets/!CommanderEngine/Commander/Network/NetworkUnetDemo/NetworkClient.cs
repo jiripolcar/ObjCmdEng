@@ -1,9 +1,9 @@
 ﻿using System;
-using Demo.Infrastructure;
+using NetworkUnetDemo.Infrastructure;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Demo
+namespace NetworkUnetDemo
 {
     public class NetworkClient : MonoBehaviour, INetworkEventHandler
     {

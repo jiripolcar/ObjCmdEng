@@ -1,4 +1,4 @@
-﻿namespace Demo.Infrastructure
+﻿namespace NetworkUnetDemo.Infrastructure
 {
   public interface INetworkEventHandler
   {

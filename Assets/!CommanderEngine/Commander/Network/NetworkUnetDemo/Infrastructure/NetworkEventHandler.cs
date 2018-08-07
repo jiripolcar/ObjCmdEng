@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
   /// <summary>
   /// Every frame, trigger any pending network events and redirect them to the appropriate targets.

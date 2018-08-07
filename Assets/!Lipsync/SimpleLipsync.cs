@@ -11,7 +11,7 @@ public class SimpleLipsync : MonoBehaviour
 
     [SerializeField] private float maxValue = 43;
     [SerializeField] private float minValue = 30;
-    [SerializeField] private float defaultValue;
+    [SerializeField] private float defaultValue = 38;
     private float valueToApply = 0;
     [SerializeField] private float interval = 0.1f;
 
@@ -59,5 +59,12 @@ public class SimpleLipsync : MonoBehaviour
         jaw.transform.localEulerAngles = defaultJawEA;
     }
 
+    private void Reset()
+    {
+        if (!jaw)
+            jaw = gameObject.FindChildWithName("jaw");
+        if (!audioSource)
+            audioSource = GetComponent<AudioSource>();
+    }
 
 }

@@ -40,7 +40,7 @@ namespace CommanderEngine
             if (Owner == null || Destination == null)
             {
                 Log.Write("WalkCommand without an owner of a destination!", LogRecordType.Error);
-            }            
+            }
             WalkCommand c = new WalkCommand()
             {
                 owner = Owner,
@@ -110,7 +110,7 @@ namespace CommanderEngine
             List<ushort> SyncsWith = new List<ushort>();
             CommandState State = CommandState.New;
 
-            string[] parsed = commandString.Split(';');
+            string[] parsed = commandString.Split(parDel);
             List<string> rest = new List<string>();
 
             string cmd = "";
@@ -131,7 +131,7 @@ namespace CommanderEngine
                     case "pc": Predecessor = ushort.Parse(value); break;
                     case "sw":
                         {
-                            string[] buffer = value.Split(',');
+                            string[] buffer = value.Split(syncsDel);
                             foreach (string n in buffer)
                                 SyncsWith.Add(ushort.Parse(n));
                         }
@@ -220,9 +220,9 @@ namespace CommanderEngine
 
         private static void GetAttributeAndValue(string parsedElement, out string attribute, out string value)
         {
-            if (parsedElement.Contains(":"))
+            if (parsedElement.Contains("" + parSep))
             {
-                string[] split = parsedElement.Split(':');
+                string[] split = parsedElement.Split(parSep);
                 attribute = split[0].ToLower();
                 value = split[1];
             }

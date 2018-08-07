@@ -14,9 +14,25 @@ namespace CommanderEngine
         }
         private bool IsAnimatorInTransition { get { return animator.GetBool("isInTransition"); } }
 
-        [Range(0, 1)] [SerializeField] private float animationVariation = 0;
+        [Range(0, 1)] [SerializeField] private float animatorVariation = 0;
+        public float AnimatorVariation
+        {
+            get { return animatorVariation; }
+            set { animatorVariation = value; animator.SetFloat("Variant", value); }
+        }
+        public float AnimatorTurn
+        {
+            get { return animator.GetFloat("Turn"); }
+            set { animator.SetFloat("Turn", value); }
+        }
+        public float AnimatorForward
+        {
+            get { return animator.GetFloat("Forward"); }
+            set { animator.SetFloat("Forward", value); }
+        }
 
-        protected const float animationVariatorDurationCoefficient = 5;
+
+        protected const float animationVariatorDurationCoefficient = 15;
 
         protected override IEnumerator Commit(Command command)
         {
@@ -109,10 +125,10 @@ namespace CommanderEngine
                 else
                     nextVariation -= Time.deltaTime;
 
-                if (Mathf.Abs(intended - animationVariation) > 0.001f)
+                if (Mathf.Abs(intended - animatorVariation) > 0.001f)
                 {
-                    animationVariation += Time.deltaTime / animationVariatorDurationCoefficient * Mathf.Sign(intended - animationVariation);
-                    animator.SetFloat("Variant", animationVariation);
+                    animatorVariation += Time.deltaTime / animationVariatorDurationCoefficient * Mathf.Sign(intended - animatorVariation);
+                    animator.SetFloat("Variant", animatorVariation);
                 }
                 yield return null;
             }

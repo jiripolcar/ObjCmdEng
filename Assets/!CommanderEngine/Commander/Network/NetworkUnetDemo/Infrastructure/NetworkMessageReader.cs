@@ -5,7 +5,7 @@ using System.Security.AccessControl;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
   /// <summary>
   /// It's hopelessly naive to assume that we read the entire message in a single chunk.

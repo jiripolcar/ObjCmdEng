@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-namespace Demo.Infrastructure
+namespace NetworkUnetDemo.Infrastructure
 {
   /// <summary>
   /// This configuration must be shared between client and server, or nothing works.

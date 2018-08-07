@@ -5,22 +5,30 @@ using UnityEngine;
 
 namespace CommanderEngine.Network
 {
-    public class AvatarNPCCommanderSyncer : CommanderSyncer
+    public class AvatarSyncer : CommanderSyncer
     {
         [SerializeField] internal AvatarNPCCommander avatarNPC;
-        
+
+        public AvatarSyncMessage lastSyncMessage;
+        public AvatarSyncMessage syncMessage;
+
         public void DoSync()
         {
-            NetworkCommander.CollectSyncMessage(AvatarNPCCommanderSyncMessage.ToSyncMessage(avatarNPC));
+            syncMessage = AvatarSyncMessage.ToSyncMessage(avatarNPC);
+            if (!syncMessage.IsEqual(lastSyncMessage))
+            {
+                lastSyncMessage = syncMessage;
+                NetworkCommander.CollectSyncMessage(lastSyncMessage);
+            }
         }
 
         private void Start()
         {
+            lastSyncMessage = AvatarSyncMessage.ToSyncMessage(avatarNPC);
             if (!NetworkCommander.IsServer && avatarNPC.animationVariator != null)
             {
-                avatarNPC.StopCoroutine(avatarNPC.animationVariator);                
+                avatarNPC.StopCoroutine(avatarNPC.animationVariator);
             }
-            //timeToSync = Random.Range(0, Configuration.Data.networkSyncInterval);
         }
 
         float timeToSync = 1;
@@ -30,7 +38,7 @@ namespace CommanderEngine.Network
             if (timeToSync < 0)
             {
                 DoSync();
-                timeToSync = Configuration.Data.networkSyncInterval;                
+                timeToSync = Configuration.Data.networkSyncInterval;
             }
         }
 
