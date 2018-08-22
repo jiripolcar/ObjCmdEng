@@ -2,5 +2,6 @@
     "networkPort": 7989,
     "defaultIP": "127.0.0.1",
     "startAsServer": true,
+    "logBatchSize": 50,
     "networkSyncInterval": 0.07500000298023224
 }

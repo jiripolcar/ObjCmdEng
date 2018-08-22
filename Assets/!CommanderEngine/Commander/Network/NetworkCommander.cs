@@ -8,9 +8,10 @@ using UnityEngine;
 public class NetworkCommander : MonoBehaviour
 {
     public static NetworkCommander Instance;
-
+    public static bool IsClient { get { return NetworkClient != null; } }
     public static bool IsServer { get { return NetworkServer != null; } }
-    public static NetworkServer NetworkServer;
+    public static NetworkServer NetworkServer = null;
+    public static NetworkClient NetworkClient = null;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class NetworkCommander : MonoBehaviour
     {
         if (IsServer)
         {
-            List<Commander> cmdrs = new List<Commander>(Commander.RegisteredCommanders.Values);
+            List<Commander> cmdrs = ObjectIdentifier.GetAllCommanders();
             cmdrs.ForEach((cmdr) =>
             {
                 if (cmdr is AvatarNPCCommander)
@@ -35,7 +36,6 @@ public class NetworkCommander : MonoBehaviour
 
                     }
                 }
-
             });
         }
     }
@@ -44,10 +44,29 @@ public class NetworkCommander : MonoBehaviour
 
     public static void CollectSyncMessage(AvatarSyncMessage msg)
     {
-        Instance.syncData.avatarNPCSync.Add(msg);
+        if (IsServer)
+            Instance.syncData.avatarNPCSync.Add(msg);
+        else
+            ConsoleLog.Log.Write("Only Network Server can send state syncs!", ConsoleLog.LogRecordType.Error);
+    }
+
+    public static void CollectCommandSync(Command cmd)
+    {
+        if (IsClient)
+            Instance.syncData.commandSync.Add(cmd);
+        else
+            ConsoleLog.Log.Write("Only Network Clients can add command syncs!", ConsoleLog.LogRecordType.Error);
     }
 
     private void LateUpdate()
+    {
+        if (IsServer)
+            ServerSendSync();
+        else
+            ClientSendSync();
+    }
+
+    private void ServerSendSync()
     {
         if (syncData.avatarNPCSync.Count > 0)
         {
@@ -56,13 +75,26 @@ public class NetworkCommander : MonoBehaviour
             ConsoleLog.Log.Write(syncString, ConsoleLog.LogRecordType.NetworkCommander, false);
             NetworkServer.SendData(syncString);
         }
+    }
 
+    private void ClientSendSync()
+    {
+        if (syncData.commandSync.Count > 0)
+        {
+            string syncString = syncData.Serialize();
+            syncData.avatarNPCSync = new List<AvatarSyncMessage>();
+            ConsoleLog.Log.Write(syncString, ConsoleLog.LogRecordType.NetworkCommander, false);
+            NetworkServer.SendData(syncString);
+        }
     }
 
     public static void ReceiveSyncMessages(string data)
     {
         NetworkSyncData incoming = NetworkSyncData.Deserialize(data);
-        incoming.ApplyAll();
+        if (IsClient)
+            incoming.ApplyAllAvatarSyncs();
+        if (IsServer)
+            incoming.DoAllCommands();
     }
 
 }

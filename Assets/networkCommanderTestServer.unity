@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 0}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!1 &89489106
 GameObject:
@@ -258,6 +259,7 @@ MonoBehaviour:
     networkPort: 7989
     defaultIP: 127.0.0.1
     startAsServer: 1
+    logBatchSize: 50
     networkSyncInterval: 0.075
   configFile: configuration.json
 --- !u!4 &89489108
@@ -492,6 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 224204956}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!23 &224204958
 MeshRenderer:
@@ -941,6 +944,20 @@ MonoBehaviour:
     leftFoot: {fileID: 0}
     rightFoot: {fileID: 0}
   animatorVariation: 0
+--- !u!114 &413272300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 413272293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82643ca71b2b5a64e9a9e6dfc2d98fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seatControl: {fileID: 0}
+  commander: {fileID: 413272298}
+  identifyAs: 
 --- !u!1 &456505604 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1138472442615028, guid: 2a1606cfbafa0cd469ae31252146c9bc,
@@ -1095,7 +1112,6 @@ MonoBehaviour:
   consoleToggleKey: 107
   lineWidth: 19
   mirrorToUnityDebug: 1
-  logBatch: 20
 --- !u!4 &781127613
 Transform:
   m_ObjectHideFlags: 0
@@ -1282,6 +1298,20 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 72c03526c3adea945ada6eb97cf702fb,
     type: 3}
   m_PrefabInternal: {fileID: 2133530798}
+--- !u!114 &905778886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 905778879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82643ca71b2b5a64e9a9e6dfc2d98fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seatControl: {fileID: 0}
+  commander: {fileID: 905778883}
+  identifyAs: 
 --- !u!1 &985902048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,6 +1495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 0}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!1 &1113621769 stripped
 GameObject:
@@ -1656,6 +1687,20 @@ MonoBehaviour:
   minValue: 30
   defaultValue: 0
   interval: 0.1
+--- !u!114 &1113621777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1113621769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82643ca71b2b5a64e9a9e6dfc2d98fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seatControl: {fileID: 0}
+  commander: {fileID: 1113621770}
+  identifyAs: 
 --- !u!1 &1155359938
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,6 +2368,20 @@ MonoBehaviour:
   minValue: 30
   defaultValue: 0
   interval: 0.1
+--- !u!114 &1355644507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1355644499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82643ca71b2b5a64e9a9e6dfc2d98fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seatControl: {fileID: 0}
+  commander: {fileID: 1355644504}
+  identifyAs: 
 --- !u!1 &1393151156
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,6 +2494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 1399379134}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!23 &1399379137
 MeshRenderer:
@@ -2541,6 +2601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 1451309728}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!23 &1451309730
 MeshRenderer:
@@ -2647,6 +2708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 1462376971}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!23 &1462376973
 MeshRenderer:
@@ -2919,6 +2981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 0}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!1 &1588249242
 GameObject:
@@ -3005,6 +3068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 0}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!4 &1651298240 stripped
 Transform:
@@ -3208,6 +3272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatControl: {fileID: 0}
+  commander: {fileID: 0}
   identifyAs: 
 --- !u!23 &1710175489
 MeshRenderer:

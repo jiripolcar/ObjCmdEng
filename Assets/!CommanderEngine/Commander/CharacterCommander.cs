@@ -31,8 +31,14 @@ namespace CommanderEngine
         public SeatControl previousSeatState { get; private set; }
         [SerializeField] protected float walkAlignDuration = 0.33f;
 
-        void Reset()
+        private void Reset()
         {
+            CharacterCommanderReset();
+        }
+
+        protected void CharacterCommanderReset()
+        {
+            CommanderReset();
             nmAgent = gameObject.GetComponent<NavMeshAgent>();
             if (!nmAgent)
                 nmAgent = gameObject.AddComponent<NavMeshAgent>();

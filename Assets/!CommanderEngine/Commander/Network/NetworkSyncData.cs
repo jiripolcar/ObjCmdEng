@@ -9,9 +9,9 @@ namespace CommanderEngine.Network
     {
         public const char Del = ';';
         public List<AvatarSyncMessage> avatarNPCSync = new List<AvatarSyncMessage>();
+        public List<Command> commandSync = new List<Command>();
 
-
-        public AvatarSyncMessage Pull()
+        private AvatarSyncMessage PullAsm()
         {
             if (avatarNPCSync.Count > 0)
             {
@@ -22,18 +22,32 @@ namespace CommanderEngine.Network
             else return null;
         }
 
+        private Command PullCmd()
+        {
+            if (commandSync.Count > 0)
+            {
+                Command cmd = commandSync[0];                
+                commandSync.RemoveAt(0);
+                return cmd;
+            }
+            else return null;
+        }
+
         public string Serialize()
         {
-
-            string ser = (avatarNPCSync.Count).ToString();
-
-            AvatarSyncMessage asm = Pull();
+            string ser = (avatarNPCSync.Count).ToString() + Del + (commandSync.Count).ToString();
+            AvatarSyncMessage asm = PullAsm();
             while (asm != null)
             {
                 ser += Del + asm.Serialize();
-                asm = Pull();
+                asm = PullAsm();
             }
-
+            Command cmd = PullCmd();
+            while (cmd != null)
+            {
+                ser += Del + cmd.ToString();
+                cmd = PullCmd();
+            }
             return ser;
         }
 
@@ -44,21 +58,34 @@ namespace CommanderEngine.Network
 
             NetworkSyncData l = new NetworkSyncData();
             l.avatarNPCSync = new List<AvatarSyncMessage>();
+            l.commandSync = new List<Command>();
 
             int avatarSyncs = int.Parse(b[0]);
+            int commandSyncs = int.Parse(b[1]);
 
-            int i = 1;
-            for (; i < avatarSyncs + 1; i++)
+            int avatarSyncsEnd = 2 + avatarSyncs;
+            int commandSyncsEnd = avatarSyncsEnd + commandSyncs;
+
+            int i = 2;
+            for (; i < avatarSyncsEnd; i++)
             {
                 l.avatarNPCSync.Add(AvatarSyncMessage.FromString(b[i]));
             }
+            for (; i < avatarSyncsEnd; i++)
+            {
+                l.commandSync.Add(Command.FromString(b[i]));
+            }
             return l;
-            //return JsonUtility.FromJson<ListOfAvatarNPCCommanderSyncMessage>(json);
         }
 
-        public void ApplyAll()
+        public void ApplyAllAvatarSyncs()
         {
             avatarNPCSync.ForEach((msg) => msg.Apply());
+        }
+
+        public void DoAllCommands()
+        {
+            commandSync.ForEach((cmd) => Commander.Do(cmd));
         }
     }
 }

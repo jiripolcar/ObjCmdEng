@@ -8,42 +8,44 @@ namespace CommanderEngine
     {
         public static List<Command> ActiveCommands;
         public static List<Command> DisposedCommands;
-        public static Dictionary<string, Commander> RegisteredCommanders;
+        //public static Dictionary<string, Commander> RegisteredCommanders;
 
         public static Commander Find(string key)
         {
-            Commander c;
-            if (RegisteredCommanders.TryGetValue(key.ToLower(), out c))
-                return c;
+            ObjectIdentifier oi = ObjectIdentifier.Find(key);
+            if (oi)
+                return oi.commander;
             else
                 return null;
         }
 
         public static Command Do(Command command)
         {
-            command.Owner.AddCommand(command);
+            if (NetworkCommander.IsClient)
+                NetworkCommander.CollectCommandSync(command);
+            else
+                command.Owner.AddCommand(command);
             return command;
         }
 
         public static Command Do(string commandString)
         {
-            Command command = Command.FromString(commandString);
-            command.Owner.AddCommand(command);
-            return command;
+            return Do(Command.FromString(commandString));
         }
 
         private static void InitAndRegister(Commander subject)
-        {            
+        {
             if (ActiveCommands == null)
                 ActiveCommands = new List<Command>();
             if (DisposedCommands == null)
                 DisposedCommands = new List<Command>();
-            if (RegisteredCommanders == null)
-                RegisteredCommanders = new Dictionary<string, Commander>();
-            if (RegisteredCommanders.ContainsKey(subject.name.ToLower()) || RegisteredCommanders.ContainsValue(subject))
+            /*if (RegisteredCommanders == null)
+                RegisteredCommanders = new Dictionary<string, Commander>();*/
+            /*if (RegisteredCommanders.ContainsKey(subject.name.ToLower()) || RegisteredCommanders.ContainsValue(subject))
                 throw new System.Exception("Commander with the name '" + subject.name + "' is already registered!");
             else
-                RegisteredCommanders.Add(subject.name.ToLower(), subject);
+                RegisteredCommanders.Add(subject.name.ToLower(), subject);*/
+
         }
 
 

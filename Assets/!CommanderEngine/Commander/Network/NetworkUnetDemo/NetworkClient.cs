@@ -24,6 +24,7 @@ namespace NetworkUnetDemo
         private void OnEnable()
         {
             StartServer();
+            NetworkCommander.NetworkClient = this;
         }
 
         private void Start()

@@ -20,20 +20,13 @@ namespace CommanderEngine
 
         private void Reset()
         {
-            nmAgent = gameObject.GetComponent<NavMeshAgent>();
-            if (!nmAgent)
-                nmAgent = gameObject.AddComponent<NavMeshAgent>();
-            nmAgent.enabled = false;
+            AvatarCommanderReset();
+        }
 
-            nmObstacle = gameObject.GetComponent<NavMeshObstacle>();
-            if (!nmObstacle)
-                nmObstacle = gameObject.AddComponent<NavMeshObstacle>();
-            nmObstacle.enabled = true;
-
-            audioSource = gameObject.GetComponent<AudioSource>();
-            if (!audioSource)
-                audioSource = gameObject.AddComponent<AudioSource>();
-
+        protected void AvatarCommanderReset()
+        {
+            CommanderReset();
+            CharacterCommanderReset();
             if (!animator)
                 animator = GetComponent<Animator>();
         }

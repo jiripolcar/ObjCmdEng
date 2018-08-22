@@ -44,7 +44,7 @@ namespace ConsoleLog
         [SerializeField] private int lineWidth = 19;
         [Tooltip("Whether mirror this log messages to Unity console. Auto true in build, change in Awake if you wish.")] [SerializeField] private bool mirrorToUnityDebug = true;
 
-        [Tooltip("Set batch size, in which the log will be saved to file.")] [SerializeField] private int logBatch = 20;
+        [SerializeField] private int logBatch { get { return Configuration.Data.logBatchSize; } }
 
         private int updateFPSFramesCounter = 0;
         private float updateFPSTimeCounter;
@@ -62,7 +62,7 @@ namespace ConsoleLog
             consoleContent = new LogRecord[maxLines];
             WriteHeader();
             if (showConsole)
-                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine, true);            
+                WriteToLog("Press " + consoleToggleKey.ToString() + " to toggle Console.", LogRecordType.Engine, true);
         }
 
         void Update()
@@ -73,18 +73,19 @@ namespace ConsoleLog
                         Application.CaptureScreenshot(logPath + "_" + Time.time.ToString("0") + ".png");*/
 
             if (fpsText)
+            {
                 fpsText.text = "T: " + Time.time.ToString("0.0") + " fps: " + (1 / Time.deltaTime).ToString("0");
 
-            updateFPSTimeCounter -= Time.deltaTime;
-            updateFPSFramesCounter++;
+                updateFPSTimeCounter -= Time.deltaTime;
+                updateFPSFramesCounter++;
 
-            if (updateFPSTimeCounter < 0)
-            {
-                updateFPSTimeCounter = updateFPSInterval;
-                WriteToLog("Frames in " + updateFPSInterval.ToString("0.0") + " seconds: " + updateFPSFramesCounter + " = " + (updateFPSFramesCounter / updateFPSInterval).ToString("0") + " FPS", LogRecordType.Engine, true);
-                updateFPSFramesCounter = 0;
+                if (updateFPSTimeCounter < 0)
+                {
+                    updateFPSTimeCounter = updateFPSInterval;
+                    WriteToLog("Frames in " + updateFPSInterval.ToString("0.0") + " seconds: " + updateFPSFramesCounter + " = " + (updateFPSFramesCounter / updateFPSInterval).ToString("0") + " FPS", LogRecordType.Engine, true);
+                    updateFPSFramesCounter = 0;
+                }
             }
-
         }
 
         void OnGUI()
@@ -172,15 +173,32 @@ namespace ConsoleLog
             if (logDeviceSpecs) WriteToLog(specs, LogRecordType.Message, true);
         }
 
+        private bool directoryExists = false;
         private void WriteToFile()
         {
-            StreamWriter sw = new StreamWriter(logPath, true);
-            while (logsWriteToFileBatch.Count > 0)
+            try
             {
-                LogRecord lm = logsWriteToFileBatch.Dequeue();
-                sw.WriteLine(lm.ToString());
+                StreamWriter sw = new StreamWriter(logPath, true);
+                while (logsWriteToFileBatch.Count > 0)
+                {
+                    LogRecord lm = logsWriteToFileBatch.Dequeue();
+                    sw.WriteLine(lm.ToString());
+                }
+                sw.Close();
             }
-            sw.Close();
+            catch (DirectoryNotFoundException dex)
+            {
+                Write("Log directory not found. Creating log directory: " + dex.Message, LogRecordType.Warning);
+                if (!directoryExists)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+                    directoryExists = true;
+                    WriteToFile();
+                }
+                else
+                    throw (new IOException("Error at log export attempt."));
+            }
+            directoryExists = true;
         }
     }
 }

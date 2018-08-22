@@ -9,6 +9,7 @@ namespace CommanderEngine
         public static Dictionary<string, ObjectIdentifier> objectIdentifiers { get; set; }
 
         [SerializeField] public SeatControl seatControl;
+        [SerializeField] public Commander commander;
 
 
         [Tooltip("If null or zero length, will use gameObject.name")]
@@ -18,6 +19,8 @@ namespace CommanderEngine
         {
             if (!seatControl)
                 seatControl = GetComponent<SeatControl>();
+            if (!commander)
+                commander = GetComponent<Commander>();
         }
 
         void Awake()
@@ -70,6 +73,13 @@ namespace CommanderEngine
             return oi;
         }
 
+        public static List<Commander> GetAllCommanders()
+        {
+            List<ObjectIdentifier> ois = new List<ObjectIdentifier>(objectIdentifiers.Values);
+            List<Commander> cmdrs = new List<Commander>();
+            ois.ForEach((oi) => { if (oi.commander != null) cmdrs.Add(oi.commander); });
+            return cmdrs;
+        }
 
 
     }

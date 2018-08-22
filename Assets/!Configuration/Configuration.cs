@@ -7,8 +7,8 @@ public class ConfigurationData
     public int networkPort = 7989;
     public string defaultIP = "localhost";
     public bool startAsServer = true;
-
-    public float networkSyncInterval = 0.25f;
+    public int logBatchSize = 50;
+    public float networkSyncInterval = 0.1f;
     //public int vector3ToIntPrecision = 1000;
 
 

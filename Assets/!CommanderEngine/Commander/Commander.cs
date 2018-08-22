@@ -14,11 +14,22 @@ namespace CommanderEngine
         public bool InCommandCycle { get; private set; }
         [SerializeField] internal CommanderSyncer syncer;
 
+        private void Reset()
+        {
+            CommanderReset();   
+        }
+
         private void Awake()
         {
             InitAndRegister(this);
         }
-        
+
+        protected void CommanderReset()
+        {
+            if (!gameObject.GetObjectIdentifier())
+                gameObject.AddComponent<ObjectIdentifier>();
+        }
+
         internal void AddCommand(Command c)
         {
             commandQueue.Add(c);
