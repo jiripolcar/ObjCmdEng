@@ -25,13 +25,13 @@ namespace CommanderEngine
         public override string ToString()
         {
             string s = base.ToString();
-            s += parDel + "cmd" + parSep + "walk" + parDel +
-               parDel + "dest" + parSep + destination.name +
-               parDel + "spd" + parSep + speed.ToString("0.000") +
-                parDel + "end" + parSep + (int)endingStyle +
+            s += parDel + "cmd" + valSep + "walk" + parDel +
+               parDel + "dest" + valSep + destination.name +
+               parDel + "spd" + valSep + speed.ToString("0.000") +
+                parDel + "end" + valSep + (int)endingStyle +
                 (lerpAtEndPrecisely ? parDel + "lrp" : "") +
                 (updatePosition ? parDel + "ctc" : "") +
-                parDel + "stdst" + parSep + stoppingDistance.ToString("0.000");
+                parDel + "stdst" + valSep + stoppingDistance.ToString("0.000");
             return s;
         }
 

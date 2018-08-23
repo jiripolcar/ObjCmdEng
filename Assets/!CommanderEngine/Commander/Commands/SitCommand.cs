@@ -13,7 +13,7 @@ namespace CommanderEngine
         public override string ToString()
         {
             string s = base.ToString();
-            s += parDel + "cmd" + parSep + "sit" + parDel + "tgt" + parSep + target.gameObject.GetObjectIdentifier().identifyAs;
+            s += parDel + "cmd" + valSep + "sit" + parDel + "tgt" + valSep + target.gameObject.GetObjectIdentifier().identifyAs;
             return s;
         }
 

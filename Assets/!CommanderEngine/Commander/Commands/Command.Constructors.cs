@@ -147,6 +147,7 @@ namespace CommanderEngine
             {
                 case "walk": result = WalkFromString(Owner, Priority, State, Delay, SyncId, Successor, Predecessor, SyncsWith, rest.ToArray()); break;
                 case "sit": result = SitFromString(Owner, Priority, State, Delay, SyncId, Successor, Predecessor, SyncsWith, rest.ToArray()); break;
+                case "standup": result = StandUp(Owner, Priority, State, Delay, SyncId, Successor, Predecessor, SyncsWith); break;
                 default: result = null; break;
             }
             if (result.syncId > 0 && !registeredSyncedCommands.ContainsKey(result.syncId))
@@ -170,7 +171,9 @@ namespace CommanderEngine
                 GetAttributeAndValue(s, out attribute, out value);
                 switch (attribute)
                 {
-                    case "dest": Destination = ObjectIdentifier.Find(value).gameObject; break;
+                    case "dest":
+                    case "tgt":
+                        Destination = ObjectIdentifier.Find(value).gameObject; break;
                     case "spd": Speed = float.Parse(value); break;
                     case "end": EndStyle = (WalkCommand.WalkCommandEndingStyle)int.Parse(value); break;
                     case "lrp": LerpAtEnd = bool.Parse(value); break;
@@ -218,11 +221,27 @@ namespace CommanderEngine
             return sc;
         }
 
+        private static StandUpCommand StandUp(Commander Owner, int Priority, CommandState State, float Delay, ushort SyncId, ushort Successor, ushort Predecesssor, List<ushort> SyncsWithList)
+        {
+            StandUpCommand sc = new StandUpCommand()
+            {
+                owner = Owner,
+                state = State,
+                syncId = SyncId,
+                priority = Priority,
+                delay = Delay,
+                successor = Successor,
+                predecessor = Predecesssor,
+                syncsWith = SyncsWithList
+            };
+            return sc;
+        }
+
         private static void GetAttributeAndValue(string parsedElement, out string attribute, out string value)
         {
-            if (parsedElement.Contains("" + parSep))
+            if (parsedElement.Contains("" + valSep))
             {
-                string[] split = parsedElement.Split(parSep);
+                string[] split = parsedElement.Split(valSep);
                 attribute = split[0].ToLower();
                 value = split[1];
             }

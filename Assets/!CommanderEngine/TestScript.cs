@@ -30,10 +30,10 @@ public class TestScript : MonoBehaviour
 
     private void Sit()
     {
-        sit1 = (SitCommand)Commander.Do("ow:Joe,cmd:sit,tgt:ChairJoe,de:0");
-        sit3 = (SitCommand)Commander.Do("ow:Kid,cmd:sit,tgt:ChairKid,de:2");
-        sit2 = (SitCommand)Commander.Do("ow:Ethan,cmd:sit,tgt:ChairEthan,de:4");
-        sit4 = (SitCommand)Commander.Do("ow:Vaclav_Unity,cmd:sit,tgt:ChairVaclav,de:6");
+        sit1 = (SitCommand)Commander.Do("ow:Joe,cmd:sit,tgt:Chair0,de:0");
+        sit3 = (SitCommand)Commander.Do("ow:Kid,cmd:sit,tgt:Chair1,de:2");
+        sit2 = (SitCommand)Commander.Do("ow:Ethan,cmd:sit,tgt:Chair2,de:4");
+        sit4 = (SitCommand)Commander.Do("ow:Vaclav_Unity,cmd:sit,tgt:Chair3,de:6");
     }
 
     private void Run()
@@ -46,8 +46,8 @@ public class TestScript : MonoBehaviour
 
     private void Start()
     {
-        Invoke("Sit", 0.5f);
-       Invoke("Run", 1f);
+   //     Invoke("Sit", 0.5f);
+    //   Invoke("Run", 1f);
 
     }
 

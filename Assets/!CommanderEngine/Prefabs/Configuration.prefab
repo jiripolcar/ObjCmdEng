@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configData:
     networkPort: 7989
-    defaultIP: localhost
+    defaultIP: 127.0.0.1
     startAsServer: 1
     logBatchSize: 50
-    networkSyncInterval: 0.25
+    networkSyncInterval: 0.1
   configFile: configuration.json

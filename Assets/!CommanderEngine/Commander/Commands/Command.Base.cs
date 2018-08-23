@@ -11,7 +11,7 @@ namespace CommanderEngine
     public partial class Command : IComparable
     {
         public const char parDel = ','; // parameter delimiter
-        public const char parSep = ':'; // parameter separator
+        public const char valSep = ':'; // parameter value separator
         public const char syncsDel = '&'; // syncs with delimiter
         private static ushort lastCommandSyncID = 1;
         private static ushort GetNewCommandSyncID { get { while (GetSyncCommand(++lastCommandSyncID) != null) { } return lastCommandSyncID; } }
@@ -69,7 +69,7 @@ namespace CommanderEngine
             string syncs;
             if (syncsWith != null && syncsWith.Count > 0)
             {
-                syncs = "sw" + parSep;
+                syncs = "sw" + valSep;
                 for (int i = 0; i < syncsWith.Count; i++)
                     syncs += (i > 0 ? "" + syncsDel : "") + syncsWith;
             }
@@ -78,12 +78,12 @@ namespace CommanderEngine
 
 
             return "ow:" + Owner.gameObject.name
-                + (priority != 0 ? parDel + "pr" + parSep + priority : "")
-                + (delay > 0 ? parDel + "de" + parSep + delay.ToString("0.000") : "")
-                + parDel + "st" + parSep + (int)state
-                + (syncId > 0 ? parDel + "id" + parSep + syncId : "")
-                + (successor > 0 ? parDel + "sc" + parSep + successor : "")
-                + (predecessor > 0 ? parDel + "pc" + parSep + predecessor : "")
+                + (priority != 0 ? parDel + "pr" + valSep + priority : "")
+                + (delay > 0 ? parDel + "de" + valSep + delay.ToString("0.000") : "")
+                + parDel + "st" + valSep + (int)state
+                + (syncId > 0 ? parDel + "id" + valSep + syncId : "")
+                + (successor > 0 ? parDel + "sc" + valSep + successor : "")
+                + (predecessor > 0 ? parDel + "pc" + valSep + predecessor : "")
                 + syncs;
         }
 
