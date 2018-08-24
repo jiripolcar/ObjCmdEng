@@ -84,7 +84,7 @@ public class NetworkCommander : MonoBehaviour
             string syncString = syncData.Serialize();
             syncData.avatarNPCSync = new List<AvatarSyncMessage>();
             ConsoleLog.Log.Write(syncString, ConsoleLog.LogRecordType.NetworkCommander, false);
-            NetworkServer.SendData(syncString);
+            NetworkClient.SendData(syncString);
         }
     }
 
