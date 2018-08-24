@@ -51,5 +51,11 @@ namespace NetworkUnetDemo
                 _message = null;
             }
         }
+
+        public void SendToServer(string data)
+        {
+            var bytes = Encoding.UTF8.GetBytes(data);
+            Channel.Send(bytes, bytes.Length);
+        }
     }
 }

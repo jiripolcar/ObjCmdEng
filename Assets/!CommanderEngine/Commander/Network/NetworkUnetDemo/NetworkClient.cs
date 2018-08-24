@@ -10,7 +10,7 @@ namespace NetworkUnetDemo
         [Tooltip("The connection manager to use")]
         [SerializeField] public NetworkHostManager HostManager;
 
-       // [Tooltip("The remote server address to connect to")]
+        // [Tooltip("The remote server address to connect to")]
         public string RemoteHost { get { return Configuration.Data.defaultIP; } }
 
         //[Tooltip("The remote server port to bind connect to")]
@@ -112,13 +112,21 @@ namespace NetworkUnetDemo
             }
         }
 
-
+        NetworkClientConnection networkClientConnection;
+        public bool SendData(string data)
+        {
+            if (networkClientConnection == null)
+                return false;
+            networkClientConnection.SendToServer(data);
+            return true;
+        }
 
 
 
         public void OnConnectEvent(int connectionId, int channelId)
         {
-            _connectionManager.Manage<NetworkClientConnection>(_clientId, connectionId, channelId);
+            Debug.LogWarning("OnConnectEvent");
+            networkClientConnection = _connectionManager.Manage<NetworkClientConnection>(_clientId, connectionId, channelId);
         }
 
         public void OnDataEvent(int connectionId, int channelId, byte[] buffer, int dataSize)
